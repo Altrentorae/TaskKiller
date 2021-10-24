@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,15 +15,17 @@ namespace TaskKiller
             r = textBox;
         }
         private RichTextBox r;
-        public void DebugLog(string s)
+        public void DebugLog(string s, Color? c = null)
         {
             //TabControlMain.TabPages[1].Controls[0].Text += $"{DateTime.UtcNow}: {s}\n";
-            r.Text += $"{DateTime.UtcNow}: {s}\n";
+
+            Color innerC = c.HasValue ? c.Value : r.ForeColor;
+            r.AppendText($"{DateTime.UtcNow}: {s}\n", innerC);
         }
 
         public void DebugLogNewline()
         {
-            r.Text += "\n";
+            r.AppendText("\n");
         }
 
         public void DebugLogInitAutoScroll()
@@ -34,6 +37,19 @@ namespace TaskKiller
                 R.SelectionStart = R.Text.Length;
                 R.ScrollToCaret();
             };
+        }
+    }
+
+    public static class DCCExt
+    {
+        public static void AppendText(this RichTextBox box, string text, Color color)
+        {
+            box.SelectionStart = box.TextLength;
+            box.SelectionLength = 0;
+
+            box.SelectionColor = color;
+            box.AppendText(text);
+            box.SelectionColor = box.ForeColor;
         }
     }
 }

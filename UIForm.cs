@@ -17,10 +17,12 @@ namespace TaskKiller
     public partial class UIForm : Form
     {
         public DebugConsoleController DbgCon;
+        public NotificationTextboxController notifBox;
 
         int processCount = 0;
         List<ProcessInfo> Processes = new List<ProcessInfo>();
         Process cmd;
+        static AdvTimer t;
         public UIForm()
         {
             string[] args = Extend.GetArgs();
@@ -29,19 +31,51 @@ namespace TaskKiller
             DataGridC.InitMiscDGVSettings();
             RichTextBox DgbTextBox = (RichTextBox)TabControlMain.TabPages[1].Controls[0];
             DbgCon = new DebugConsoleController(DgbTextBox);
+            notifBox = new NotificationTextboxController(notificationRtb, DbgCon);
             DbgCon.DebugLogInitAutoScroll();
             DbgCon.DebugLog("UI form init complete");
             this.InitShellProc(ref cmd, false);
+
+            
+
+            t = new AdvTimer(5000, 1000);
+            t.Tick += (s, e) => T_Tick(s, e);
+            t.SubTick += (s, e) => T_SubTick(s, e);
+
+            refreshCountdownInit = (t.Interval/1000);
+            refreshCountdown = (t.Interval/1000);
+
+            t.StartAll();
+
+            buttonRefresh_Click(null, null);
         }
+
+        int refreshCountdownInit;
+        int refreshCountdown;
         private void T_Tick(object sender, EventArgs e)
         {
-            //Live updating isnt going to work unless I can fix the horribly slow draw time on DataGridView controls
+            buttonRefresh_Click(null, null);
+
+            while (true)
+            {
+                ShellControl.ShellStatus status = ShellControl.cmdExists(cmd);
+                if(status == ShellControl.ShellStatus.Working) { break; }
+                if (status == ShellControl.ShellStatus.Null){ DbgCon.DebugLog("Shell instance not found", Color.Red); }
+                if(status == ShellControl.ShellStatus.Hang) { DbgCon.DebugLog("Shell instance not responding", Color.Red); }
+                this.InitShellProc(ref cmd, false);
+            }
+
+        }
+        private void T_SubTick(object sender, EventArgs e)
+        {
+            if(refreshCountdown-- == 0) { refreshCountdown = refreshCountdownInit; }
+            notifBox.PushNew("Refresh in: " + refreshCountdown, Color.White, false);
         }
         private void buttonRefresh_Click(object sender, EventArgs e)
         {
             DbgCon.DebugLog("-----Refreshing process list-----");
             DataGridC.UpdateDataGrid(ref Processes, ref processCount, labelTotalProc);
-            DbgCon.DebugLog("-----Refreshing process list complete-----\n");
+            DbgCon.DebugLog("-----Refreshing process list complete-----\n", Color.Green);
             DataGridC.Sort();
         }
         private void buttonRestartShell(object sender, EventArgs e)
@@ -51,7 +85,7 @@ namespace TaskKiller
         private void buttonKill_Click(object sender, EventArgs e)
         {
             if(DataGridC.SelectedRows.Count < 1) { return; }
-            if(cmd == null) { DbgCon.DebugLog("Failed to kill proc. No shell instance"); return; }
+            if(cmd == null) { DbgCon.DebugLog("Failed to kill proc. No shell instance", Color.Red); return; }
             foreach (DataGridViewRow row in DataGridC.SelectedRows)
             {
                 if(MessageBox.Show($"Kill Process {row.Cells[1].Value} - {row.Cells[0].Value} ", "Confirm Command", MessageBoxButtons.YesNo) == DialogResult.Yes)

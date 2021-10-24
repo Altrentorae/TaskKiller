@@ -31,16 +31,17 @@
             this.TabControlMain = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.DataGridC = new System.Windows.Forms.DataGridView();
+            this.ProcessName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProcessId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProcessStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProcessMem = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.labelTotalProc = new System.Windows.Forms.Label();
             this.buttonKill = new System.Windows.Forms.Button();
             this.buttonRefresh = new System.Windows.Forms.Button();
             this.buttonRelaunchCmd = new System.Windows.Forms.Button();
-            this.ProcessName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProcessId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProcessStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProcessMem = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.notificationRtb = new System.Windows.Forms.RichTextBox();
             this.TabControlMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridC)).BeginInit();
@@ -91,6 +92,35 @@
             this.DataGridC.Size = new System.Drawing.Size(849, 535);
             this.DataGridC.TabIndex = 0;
             // 
+            // ProcessName
+            // 
+            this.ProcessName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ProcessName.HeaderText = "Name";
+            this.ProcessName.Name = "ProcessName";
+            this.ProcessName.ReadOnly = true;
+            // 
+            // ProcessId
+            // 
+            this.ProcessId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ProcessId.HeaderText = "Id";
+            this.ProcessId.Name = "ProcessId";
+            this.ProcessId.ReadOnly = true;
+            // 
+            // ProcessStatus
+            // 
+            this.ProcessStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ProcessStatus.HeaderText = "Status";
+            this.ProcessStatus.Name = "ProcessStatus";
+            this.ProcessStatus.ReadOnly = true;
+            // 
+            // ProcessMem
+            // 
+            this.ProcessMem.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ProcessMem.HeaderText = "Memory";
+            this.ProcessMem.Name = "ProcessMem";
+            this.ProcessMem.ReadOnly = true;
+            this.ProcessMem.Width = 150;
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.richTextBox1);
@@ -119,7 +149,7 @@
             this.labelTotalProc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.labelTotalProc.AutoSize = true;
             this.labelTotalProc.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTotalProc.Location = new System.Drawing.Point(16, 582);
+            this.labelTotalProc.Location = new System.Drawing.Point(12, 591);
             this.labelTotalProc.Name = "labelTotalProc";
             this.labelTotalProc.Size = new System.Drawing.Size(91, 20);
             this.labelTotalProc.TabIndex = 1;
@@ -158,46 +188,31 @@
             this.buttonRelaunchCmd.UseVisualStyleBackColor = true;
             this.buttonRelaunchCmd.Click += new System.EventHandler(this.buttonRestartShell);
             // 
-            // ProcessName
+            // notificationRtb
             // 
-            this.ProcessName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ProcessName.HeaderText = "Name";
-            this.ProcessName.Name = "ProcessName";
-            this.ProcessName.ReadOnly = true;
+            this.notificationRtb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.notificationRtb.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.notificationRtb.ForeColor = System.Drawing.SystemColors.Window;
+            this.notificationRtb.Location = new System.Drawing.Point(113, 585);
+            this.notificationRtb.Name = "notificationRtb";
+            this.notificationRtb.ReadOnly = true;
+            this.notificationRtb.Size = new System.Drawing.Size(474, 35);
+            this.notificationRtb.TabIndex = 3;
+            this.notificationRtb.Text = "";
+            this.notificationRtb.WordWrap = false;
             // 
-            // ProcessId
-            // 
-            this.ProcessId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ProcessId.HeaderText = "Id";
-            this.ProcessId.Name = "ProcessId";
-            this.ProcessId.ReadOnly = true;
-            // 
-            // ProcessStatus
-            // 
-            this.ProcessStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ProcessStatus.HeaderText = "Status";
-            this.ProcessStatus.Name = "ProcessStatus";
-            this.ProcessStatus.ReadOnly = true;
-            // 
-            // ProcessMem
-            // 
-            this.ProcessMem.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ProcessMem.HeaderText = "Memory";
-            this.ProcessMem.Name = "ProcessMem";
-            this.ProcessMem.ReadOnly = true;
-            this.ProcessMem.Width = 150;
-            // 
-            // Form1
+            // UIForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(888, 632);
+            this.Controls.Add(this.notificationRtb);
             this.Controls.Add(this.buttonRelaunchCmd);
             this.Controls.Add(this.buttonRefresh);
             this.Controls.Add(this.buttonKill);
             this.Controls.Add(this.labelTotalProc);
             this.Controls.Add(this.TabControlMain);
-            this.Name = "Form1";
+            this.Name = "UIForm";
             this.Text = "Form1";
             this.TabControlMain.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -223,6 +238,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ProcessId;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProcessStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProcessMem;
+        private System.Windows.Forms.RichTextBox notificationRtb;
     }
 }
 

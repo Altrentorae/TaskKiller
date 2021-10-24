@@ -85,10 +85,13 @@ namespace TaskKiller
             }
 
             D.DebugLog($"Row data took {(DateTime.UtcNow - udgStartTime).TotalMilliseconds}");
+            DateTime postBuildTime = DateTime.UtcNow;
+            DGV.ColumnHeadersVisible = false;
             DGV.SuspendLayout();
             DGV.Rows.AddRange(bufferRows.ToArray());
             DGV.ResumeLayout();
-            D.DebugLog($"Row construction took {(DateTime.UtcNow - udgStartTime).TotalMilliseconds}");
+            DGV.ColumnHeadersVisible = true;
+            D.DebugLog($"Row construction took {(DateTime.UtcNow - postBuildTime).TotalMilliseconds}");
         }
     }
 }

@@ -64,5 +64,22 @@ namespace TaskKiller
             try { cmd.StandardInput.WriteLine(Arguments);}
             catch (Exception) {}
         }
+
+
+
+        public enum ShellStatus
+        {
+            Null = -1,
+            Working = 0,
+            Hang,
+            Unknown
+        }
+        public static ShellStatus cmdExists(this Process cmd)
+        {
+            if(cmd == null) { return ShellStatus.Null; }
+            if (cmd.Responding) { return ShellStatus.Working; }
+            if (!cmd.Responding) { return ShellStatus.Hang; }
+            return ShellStatus.Unknown;
+        }
     }
 }
