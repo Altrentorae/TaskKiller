@@ -31,10 +31,6 @@
             this.TabControlMain = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.DataGridC = new System.Windows.Forms.DataGridView();
-            this.ProcessName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProcessId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProcessStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProcessMem = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.labelTotalProc = new System.Windows.Forms.Label();
@@ -42,6 +38,11 @@
             this.buttonRefresh = new System.Windows.Forms.Button();
             this.buttonRelaunchCmd = new System.Windows.Forms.Button();
             this.notificationRtb = new System.Windows.Forms.RichTextBox();
+            this.ProcessName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProcessId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProcessStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProcessMem = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.richTextBoxSearchbox = new System.Windows.Forms.RichTextBox();
             this.TabControlMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridC)).BeginInit();
@@ -60,6 +61,7 @@
             this.TabControlMain.SelectedIndex = 0;
             this.TabControlMain.Size = new System.Drawing.Size(863, 567);
             this.TabControlMain.TabIndex = 0;
+            this.TabControlMain.SelectedIndexChanged += new System.EventHandler(this.TabPages_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -92,35 +94,6 @@
             this.DataGridC.Size = new System.Drawing.Size(849, 535);
             this.DataGridC.TabIndex = 0;
             // 
-            // ProcessName
-            // 
-            this.ProcessName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ProcessName.HeaderText = "Name";
-            this.ProcessName.Name = "ProcessName";
-            this.ProcessName.ReadOnly = true;
-            // 
-            // ProcessId
-            // 
-            this.ProcessId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ProcessId.HeaderText = "Id";
-            this.ProcessId.Name = "ProcessId";
-            this.ProcessId.ReadOnly = true;
-            // 
-            // ProcessStatus
-            // 
-            this.ProcessStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ProcessStatus.HeaderText = "Status";
-            this.ProcessStatus.Name = "ProcessStatus";
-            this.ProcessStatus.ReadOnly = true;
-            // 
-            // ProcessMem
-            // 
-            this.ProcessMem.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ProcessMem.HeaderText = "Memory";
-            this.ProcessMem.Name = "ProcessMem";
-            this.ProcessMem.ReadOnly = true;
-            this.ProcessMem.Width = 150;
-            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.richTextBox1);
@@ -151,9 +124,9 @@
             this.labelTotalProc.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelTotalProc.Location = new System.Drawing.Point(12, 591);
             this.labelTotalProc.Name = "labelTotalProc";
-            this.labelTotalProc.Size = new System.Drawing.Size(91, 20);
+            this.labelTotalProc.Size = new System.Drawing.Size(93, 20);
             this.labelTotalProc.TabIndex = 1;
-            this.labelTotalProc.Text = "Processes: ";
+            this.labelTotalProc.Text = "{Processes}";
             // 
             // buttonKill
             // 
@@ -190,22 +163,72 @@
             // 
             // notificationRtb
             // 
-            this.notificationRtb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.notificationRtb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.notificationRtb.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.notificationRtb.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.notificationRtb.ForeColor = System.Drawing.SystemColors.Window;
             this.notificationRtb.Location = new System.Drawing.Point(113, 585);
             this.notificationRtb.Name = "notificationRtb";
             this.notificationRtb.ReadOnly = true;
-            this.notificationRtb.Size = new System.Drawing.Size(474, 35);
+            this.notificationRtb.Size = new System.Drawing.Size(241, 35);
             this.notificationRtb.TabIndex = 3;
             this.notificationRtb.Text = "";
             this.notificationRtb.WordWrap = false;
+            // 
+            // ProcessName
+            // 
+            this.ProcessName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ProcessName.HeaderText = "Name";
+            this.ProcessName.Name = "ProcessName";
+            this.ProcessName.ReadOnly = true;
+            // 
+            // ProcessId
+            // 
+            this.ProcessId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ProcessId.HeaderText = "Id";
+            this.ProcessId.Name = "ProcessId";
+            this.ProcessId.ReadOnly = true;
+            // 
+            // ProcessStatus
+            // 
+            this.ProcessStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ProcessStatus.HeaderText = "Status";
+            this.ProcessStatus.Name = "ProcessStatus";
+            this.ProcessStatus.ReadOnly = true;
+            // 
+            // ProcessMem
+            // 
+            this.ProcessMem.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ProcessMem.HeaderText = "Memory";
+            this.ProcessMem.Name = "ProcessMem";
+            this.ProcessMem.ReadOnly = true;
+            this.ProcessMem.Width = 150;
+            // 
+            // richTextBoxSearchbox
+            // 
+            this.richTextBoxSearchbox.AcceptsTab = true;
+            this.richTextBoxSearchbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBoxSearchbox.BackColor = System.Drawing.Color.White;
+            this.richTextBoxSearchbox.DetectUrls = false;
+            this.richTextBoxSearchbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBoxSearchbox.ForeColor = System.Drawing.Color.Black;
+            this.richTextBoxSearchbox.Location = new System.Drawing.Point(361, 585);
+            this.richTextBoxSearchbox.Multiline = false;
+            this.richTextBoxSearchbox.Name = "richTextBoxSearchbox";
+            this.richTextBoxSearchbox.Size = new System.Drawing.Size(226, 35);
+            this.richTextBoxSearchbox.TabIndex = 3;
+            this.richTextBoxSearchbox.Text = "";
+            this.richTextBoxSearchbox.WordWrap = false;
+            this.richTextBoxSearchbox.TextChanged += new System.EventHandler(this.richTextBoxSearchbox_TextChanged);
             // 
             // UIForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(888, 632);
+            this.Controls.Add(this.richTextBoxSearchbox);
             this.Controls.Add(this.notificationRtb);
             this.Controls.Add(this.buttonRelaunchCmd);
             this.Controls.Add(this.buttonRefresh);
@@ -234,11 +257,12 @@
         private System.Windows.Forms.Button buttonKill;
         private System.Windows.Forms.Button buttonRefresh;
         private System.Windows.Forms.Button buttonRelaunchCmd;
+        private System.Windows.Forms.RichTextBox notificationRtb;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProcessName;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProcessId;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProcessStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProcessMem;
-        private System.Windows.Forms.RichTextBox notificationRtb;
+        private System.Windows.Forms.RichTextBox richTextBoxSearchbox;
     }
 }
 

@@ -55,10 +55,11 @@ namespace TaskKiller
         private void T_Tick(object sender, EventArgs e)
         {
             buttonRefresh_Click(null, null);
+            refreshCountdown = refreshCountdownInit;
 
             while (true)
             {
-                ShellControl.ShellStatus status = ShellControl.cmdExists(cmd);
+                ShellControl.ShellStatus status = ShellControl.CmdExists(cmd);
                 if(status == ShellControl.ShellStatus.Working) { break; }
                 if (status == ShellControl.ShellStatus.Null){ DbgCon.DebugLog("Shell instance not found", Color.Red); }
                 if(status == ShellControl.ShellStatus.Hang) { DbgCon.DebugLog("Shell instance not responding", Color.Red); }
@@ -68,7 +69,7 @@ namespace TaskKiller
         }
         private void T_SubTick(object sender, EventArgs e)
         {
-            if(refreshCountdown-- == 0) { refreshCountdown = refreshCountdownInit; }
+            refreshCountdown--;
             notifBox.PushNew("Refresh in: " + refreshCountdown, Color.White, false);
         }
         private void buttonRefresh_Click(object sender, EventArgs e)
@@ -95,7 +96,17 @@ namespace TaskKiller
                     DbgCon.DebugLogNewline();
                 }
             }
-        } 
+        }
+
+        private void TabPages_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //This double refresh sounds like a stupid way to fix a bug
+            //But it works :D
+            this.Refresh();
+            this.Refresh();
+        }
+
+        private void richTextBoxSearchbox_TextChanged(object sender, EventArgs e) { DataGridC.Filter(richTextBoxSearchbox.Text); }
     }
 
 }

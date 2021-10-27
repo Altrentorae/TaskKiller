@@ -11,11 +11,6 @@ namespace TaskKiller
 {
     public static class Extend
     {
-        public static void InitMiscDGVSettings(this DataGridView DGV)
-        {
-            DGV.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-        }
-
         public static Process[] GetAllProcesses()
         {
             return Process.GetProcesses();

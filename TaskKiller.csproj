@@ -56,6 +56,7 @@
     </Compile>
     <Compile Include="DataGridViewController.cs" />
     <Compile Include="DebugConsoleController.cs" />
+    <Compile Include="DebugStopwatch.cs" />
     <Compile Include="Extend.cs" />
     <Compile Include="NotificationTextboxController.cs" />
     <Compile Include="UIForm.cs">

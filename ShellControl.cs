@@ -36,13 +36,15 @@ namespace TaskKiller
                 D.DebugLog("Launching cmd shell in background");
 
                 cmd = new Process();
-                ProcessStartInfo cmdSI = new ProcessStartInfo();
-                cmdSI.FileName = "cmd.exe";
-                cmdSI.Verb = "runas";
-                cmdSI.UseShellExecute = false;
-                cmdSI.CreateNoWindow = !showWindow;
-                cmdSI.WindowStyle = showWindow ? ProcessWindowStyle.Normal : ProcessWindowStyle.Minimized;
-                cmdSI.RedirectStandardInput = true;
+                ProcessStartInfo cmdSI = new ProcessStartInfo
+                {
+                    FileName = "cmd.exe",
+                    Verb = "runas",
+                    UseShellExecute = false,
+                    CreateNoWindow = !showWindow,
+                    WindowStyle = showWindow ? ProcessWindowStyle.Normal : ProcessWindowStyle.Minimized,
+                    RedirectStandardInput = true
+                };
                 cmd.StartInfo = cmdSI;
                 cmd.Start();
 
@@ -74,7 +76,7 @@ namespace TaskKiller
             Hang,
             Unknown
         }
-        public static ShellStatus cmdExists(this Process cmd)
+        public static ShellStatus CmdExists(this Process cmd)
         {
             if(cmd == null) { return ShellStatus.Null; }
             if (cmd.Responding) { return ShellStatus.Working; }

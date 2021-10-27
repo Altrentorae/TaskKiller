@@ -19,7 +19,7 @@ namespace TaskKiller
         {
             //TabControlMain.TabPages[1].Controls[0].Text += $"{DateTime.UtcNow}: {s}\n";
 
-            Color innerC = c.HasValue ? c.Value : r.ForeColor;
+            Color innerC = c ?? r.ForeColor;
             r.AppendText($"{DateTime.UtcNow}: {s}\n", innerC);
         }
 
