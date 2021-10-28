@@ -14,16 +14,33 @@ namespace TaskKiller
         {
             rtb = _rtb;
             debugConsole = _dbg;
+            timer.Tick += Timer_Tick;
         }
 
         private RichTextBox rtb;
         private DebugConsoleController debugConsole;
+        Timer timer = new Timer();
 
         public void PushNew(string s, Color c, bool pushToDebug = true)
         {
             rtb.ForeColor = c;
             rtb.Text = s;
-            if (pushToDebug) { debugConsole.DebugLog(s); }
+            if (pushToDebug) { debugConsole.DebugLog("[NOTIF]: " + s, Color.DarkTurquoise); }
+        }
+
+        // To avoid potential overlapping timers this should always be called from a singular object
+        // Any references should point to notifBox on UIForm
+        public void PushNewTimed(string s, Color c, float time, bool pushToDebug = true)
+        {
+            timer.Interval = Convert.ToInt32(time*1000);
+            PushNew(s, c, pushToDebug);
+            timer.Start();
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            Clear();
+            timer.Stop();
         }
 
         public void Clear() { rtb.Text = ""; }

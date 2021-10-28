@@ -21,16 +21,52 @@ namespace TaskKiller
             return p.Responding ? "Working" : "Hanging";
         }
 
-        public static void Sort(this DataGridView dgv)
+        public static string PadMem(this object mem, short padLen)
         {
-            if (dgv.Rows.Count == 0 || dgv.SortedColumn == null || dgv.SortOrder == SortOrder.None) { return; }
-            dgv.Sort(dgv.SortedColumn, dgv.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending);
+            return mem.ToString().PadLeft(padLen, '0');
         }
 
-        public static string PadMem8(this long mem)
+        public enum SizeUnits
         {
-            return mem.ToString().PadLeft(8, '0');
-            //return mem > 1000000 ? ((float)(mem / 1000000f)).ToString() + "MB" : ((float)(mem / 1000f)).ToString() + "KB";
+            Byte, KB, MB, GB, TB, PB, EB, ZB, YB, AUTO
+        }
+
+        public static SizeUnits GetUnit(string val)
+        {
+            foreach(SizeUnits units in Enum.GetValues(typeof(SizeUnits)))
+            {
+                if (val.Contains(units.ToString())) { return units; }
+            }
+            return 0;
+        }
+
+        public static string ToSize(this Int64 value, SizeUnits unit)
+        {
+            if(unit == SizeUnits.AUTO)
+            {
+                System.Collections.IList list = Enum.GetValues(typeof(SizeUnits));
+                for (int i = list.Count-2; i > 0; i--)
+                {
+                    SizeUnits IUnit = (SizeUnits)list[i];
+                    float result = float.Parse(ToSize(value, IUnit));
+                    if(result >= 1) { return result.ToString("0.00") + " " + IUnit.ToString(); }
+                }
+                return value.ToString() + "TS_Err";
+            }
+            return (value / (double)Math.Pow(1024, (Int64)unit)).ToString("0.00");
+        }
+
+        public static float RemoveSizeUnit(string str)
+        {
+            for(int i = 65; i < 90; i++)
+            {
+                str = str.Replace(((char)i).ToString(), "");
+            }
+            for(int i = 97; i < 122; i++)
+            {
+                str = str.Replace(((char)i).ToString(), "");
+            }
+            return float.Parse(str);
         }
 
         public static string[] GetArgs()

@@ -33,16 +33,17 @@
             this.DataGridC = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.labelTotalProc = new System.Windows.Forms.Label();
             this.buttonKill = new System.Windows.Forms.Button();
             this.buttonRefresh = new System.Windows.Forms.Button();
             this.buttonRelaunchCmd = new System.Windows.Forms.Button();
             this.notificationRtb = new System.Windows.Forms.RichTextBox();
+            this.richTextBoxSearchbox = new System.Windows.Forms.RichTextBox();
             this.ProcessName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ProcessId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ProcessStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProcessMem = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.richTextBoxSearchbox = new System.Windows.Forms.RichTextBox();
+            this.Mem = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Mem_Raw = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.totalProcBox = new System.Windows.Forms.RichTextBox();
             this.TabControlMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridC)).BeginInit();
@@ -59,17 +60,19 @@
             this.TabControlMain.Location = new System.Drawing.Point(13, 12);
             this.TabControlMain.Name = "TabControlMain";
             this.TabControlMain.SelectedIndex = 0;
-            this.TabControlMain.Size = new System.Drawing.Size(863, 567);
+            this.TabControlMain.Size = new System.Drawing.Size(680, 567);
             this.TabControlMain.TabIndex = 0;
             this.TabControlMain.SelectedIndexChanged += new System.EventHandler(this.TabPages_SelectedIndexChanged);
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.buttonRelaunchCmd);
+            this.tabPage1.Controls.Add(this.buttonRefresh);
             this.tabPage1.Controls.Add(this.DataGridC);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(855, 541);
+            this.tabPage1.Size = new System.Drawing.Size(672, 541);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Processes";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -84,14 +87,15 @@
             this.ProcessName,
             this.ProcessId,
             this.ProcessStatus,
-            this.ProcessMem});
+            this.Mem,
+            this.Mem_Raw});
             this.DataGridC.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DataGridC.Location = new System.Drawing.Point(3, 3);
             this.DataGridC.MultiSelect = false;
             this.DataGridC.Name = "DataGridC";
             this.DataGridC.ReadOnly = true;
             this.DataGridC.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DataGridC.Size = new System.Drawing.Size(849, 535);
+            this.DataGridC.Size = new System.Drawing.Size(666, 535);
             this.DataGridC.TabIndex = 0;
             // 
             // tabPage2
@@ -117,21 +121,10 @@
             this.richTextBox1.Text = "";
             this.richTextBox1.WordWrap = false;
             // 
-            // labelTotalProc
-            // 
-            this.labelTotalProc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelTotalProc.AutoSize = true;
-            this.labelTotalProc.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTotalProc.Location = new System.Drawing.Point(12, 591);
-            this.labelTotalProc.Name = "labelTotalProc";
-            this.labelTotalProc.Size = new System.Drawing.Size(93, 20);
-            this.labelTotalProc.TabIndex = 1;
-            this.labelTotalProc.Text = "{Processes}";
-            // 
             // buttonKill
             // 
-            this.buttonKill.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonKill.Location = new System.Drawing.Point(781, 585);
+            this.buttonKill.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.buttonKill.Location = new System.Drawing.Point(598, 585);
             this.buttonKill.Name = "buttonKill";
             this.buttonKill.Size = new System.Drawing.Size(88, 35);
             this.buttonKill.TabIndex = 2;
@@ -141,8 +134,8 @@
             // 
             // buttonRefresh
             // 
-            this.buttonRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonRefresh.Location = new System.Drawing.Point(687, 585);
+            this.buttonRefresh.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.buttonRefresh.Location = new System.Drawing.Point(469, 6);
             this.buttonRefresh.Name = "buttonRefresh";
             this.buttonRefresh.Size = new System.Drawing.Size(88, 35);
             this.buttonRefresh.TabIndex = 2;
@@ -152,8 +145,8 @@
             // 
             // buttonRelaunchCmd
             // 
-            this.buttonRelaunchCmd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonRelaunchCmd.Location = new System.Drawing.Point(593, 585);
+            this.buttonRelaunchCmd.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.buttonRelaunchCmd.Location = new System.Drawing.Point(469, 47);
             this.buttonRelaunchCmd.Name = "buttonRelaunchCmd";
             this.buttonRelaunchCmd.Size = new System.Drawing.Size(88, 35);
             this.buttonRelaunchCmd.TabIndex = 2;
@@ -163,18 +156,34 @@
             // 
             // notificationRtb
             // 
-            this.notificationRtb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.notificationRtb.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.notificationRtb.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.notificationRtb.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.notificationRtb.ForeColor = System.Drawing.SystemColors.Window;
-            this.notificationRtb.Location = new System.Drawing.Point(113, 585);
+            this.notificationRtb.Location = new System.Drawing.Point(119, 585);
             this.notificationRtb.Name = "notificationRtb";
             this.notificationRtb.ReadOnly = true;
             this.notificationRtb.Size = new System.Drawing.Size(241, 35);
             this.notificationRtb.TabIndex = 3;
             this.notificationRtb.Text = "";
             this.notificationRtb.WordWrap = false;
+            // 
+            // richTextBoxSearchbox
+            // 
+            this.richTextBoxSearchbox.AcceptsTab = true;
+            this.richTextBoxSearchbox.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.richTextBoxSearchbox.BackColor = System.Drawing.Color.White;
+            this.richTextBoxSearchbox.DetectUrls = false;
+            this.richTextBoxSearchbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBoxSearchbox.ForeColor = System.Drawing.Color.Black;
+            this.richTextBoxSearchbox.Location = new System.Drawing.Point(366, 585);
+            this.richTextBoxSearchbox.Multiline = false;
+            this.richTextBoxSearchbox.Name = "richTextBoxSearchbox";
+            this.richTextBoxSearchbox.Size = new System.Drawing.Size(226, 35);
+            this.richTextBoxSearchbox.TabIndex = 3;
+            this.richTextBoxSearchbox.Text = "";
+            this.richTextBoxSearchbox.WordWrap = false;
+            this.richTextBoxSearchbox.TextChanged += new System.EventHandler(this.richTextBoxSearchbox_TextChanged);
             // 
             // ProcessName
             // 
@@ -197,43 +206,42 @@
             this.ProcessStatus.Name = "ProcessStatus";
             this.ProcessStatus.ReadOnly = true;
             // 
-            // ProcessMem
+            // Mem
             // 
-            this.ProcessMem.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ProcessMem.HeaderText = "Memory";
-            this.ProcessMem.Name = "ProcessMem";
-            this.ProcessMem.ReadOnly = true;
-            this.ProcessMem.Width = 150;
+            this.Mem.HeaderText = "Memory";
+            this.Mem.Name = "Mem";
+            this.Mem.ReadOnly = true;
             // 
-            // richTextBoxSearchbox
+            // Mem_Raw
             // 
-            this.richTextBoxSearchbox.AcceptsTab = true;
-            this.richTextBoxSearchbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBoxSearchbox.BackColor = System.Drawing.Color.White;
-            this.richTextBoxSearchbox.DetectUrls = false;
-            this.richTextBoxSearchbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBoxSearchbox.ForeColor = System.Drawing.Color.Black;
-            this.richTextBoxSearchbox.Location = new System.Drawing.Point(361, 585);
-            this.richTextBoxSearchbox.Multiline = false;
-            this.richTextBoxSearchbox.Name = "richTextBoxSearchbox";
-            this.richTextBoxSearchbox.Size = new System.Drawing.Size(226, 35);
-            this.richTextBoxSearchbox.TabIndex = 3;
-            this.richTextBoxSearchbox.Text = "";
-            this.richTextBoxSearchbox.WordWrap = false;
-            this.richTextBoxSearchbox.TextChanged += new System.EventHandler(this.richTextBoxSearchbox_TextChanged);
+            this.Mem_Raw.HeaderText = "Mem_Raw";
+            this.Mem_Raw.Name = "Mem_Raw";
+            this.Mem_Raw.ReadOnly = true;
+            this.Mem_Raw.Visible = false;
+            // 
+            // totalProcBox
+            // 
+            this.totalProcBox.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.totalProcBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.totalProcBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.totalProcBox.ForeColor = System.Drawing.SystemColors.Window;
+            this.totalProcBox.Location = new System.Drawing.Point(17, 585);
+            this.totalProcBox.Name = "totalProcBox";
+            this.totalProcBox.ReadOnly = true;
+            this.totalProcBox.Size = new System.Drawing.Size(96, 35);
+            this.totalProcBox.TabIndex = 4;
+            this.totalProcBox.Text = "";
+            this.totalProcBox.WordWrap = false;
             // 
             // UIForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(888, 632);
+            this.ClientSize = new System.Drawing.Size(705, 632);
+            this.Controls.Add(this.totalProcBox);
             this.Controls.Add(this.richTextBoxSearchbox);
             this.Controls.Add(this.notificationRtb);
-            this.Controls.Add(this.buttonRelaunchCmd);
-            this.Controls.Add(this.buttonRefresh);
             this.Controls.Add(this.buttonKill);
-            this.Controls.Add(this.labelTotalProc);
             this.Controls.Add(this.TabControlMain);
             this.Name = "UIForm";
             this.Text = "Form1";
@@ -242,7 +250,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.DataGridC)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -253,16 +260,17 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.DataGridView DataGridC;
-        private System.Windows.Forms.Label labelTotalProc;
         private System.Windows.Forms.Button buttonKill;
         private System.Windows.Forms.Button buttonRefresh;
         private System.Windows.Forms.Button buttonRelaunchCmd;
         private System.Windows.Forms.RichTextBox notificationRtb;
+        private System.Windows.Forms.RichTextBox richTextBoxSearchbox;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProcessName;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProcessId;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProcessStatus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProcessMem;
-        private System.Windows.Forms.RichTextBox richTextBoxSearchbox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Mem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Mem_Raw;
+        private System.Windows.Forms.RichTextBox totalProcBox;
     }
 }
 

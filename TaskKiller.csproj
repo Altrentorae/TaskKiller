@@ -58,7 +58,9 @@
     <Compile Include="DebugConsoleController.cs" />
     <Compile Include="DebugStopwatch.cs" />
     <Compile Include="Extend.cs" />
+    <Compile Include="MemoryDataRowComparer.cs" />
     <Compile Include="NotificationTextboxController.cs" />
+    <Compile Include="RTBPlaceholderController.cs" />
     <Compile Include="UIForm.cs">
       <SubType>Form</SubType>
     </Compile>

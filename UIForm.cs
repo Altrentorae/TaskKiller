@@ -23,11 +23,18 @@ namespace TaskKiller
         List<ProcessInfo> Processes = new List<ProcessInfo>();
         Process cmd;
         static AdvTimer t;
+        string placeHolderText = " Search Processes";
         public UIForm()
         {
             string[] args = Extend.GetArgs();
 
             InitializeComponent();
+
+            {
+                buttonRefresh.Visible = false;
+                buttonRelaunchCmd.Visible = false;
+            }
+
             DataGridC.InitMiscDGVSettings();
             RichTextBox DgbTextBox = (RichTextBox)TabControlMain.TabPages[1].Controls[0];
             DbgCon = new DebugConsoleController(DgbTextBox);
@@ -35,8 +42,6 @@ namespace TaskKiller
             DbgCon.DebugLogInitAutoScroll();
             DbgCon.DebugLog("UI form init complete");
             this.InitShellProc(ref cmd, false);
-
-            
 
             t = new AdvTimer(5000, 1000);
             t.Tick += (s, e) => T_Tick(s, e);
@@ -48,6 +53,9 @@ namespace TaskKiller
             t.StartAll();
 
             buttonRefresh_Click(null, null);
+
+            
+            richTextBoxSearchbox.InitEvents(placeHolderText);
         }
 
         int refreshCountdownInit;
@@ -70,12 +78,12 @@ namespace TaskKiller
         private void T_SubTick(object sender, EventArgs e)
         {
             refreshCountdown--;
-            notifBox.PushNew("Refresh in: " + refreshCountdown, Color.White, false);
+            //notifBox.PushNew("Refresh in: " + refreshCountdown, Color.White, false);
         }
         private void buttonRefresh_Click(object sender, EventArgs e)
         {
             DbgCon.DebugLog("-----Refreshing process list-----");
-            DataGridC.UpdateDataGrid(ref Processes, ref processCount, labelTotalProc);
+            DataGridC.UpdateDataGrid(ref Processes, ref processCount, totalProcBox);
             DbgCon.DebugLog("-----Refreshing process list complete-----\n", Color.Green);
             DataGridC.Sort();
         }
@@ -106,7 +114,12 @@ namespace TaskKiller
             this.Refresh();
         }
 
-        private void richTextBoxSearchbox_TextChanged(object sender, EventArgs e) { DataGridC.Filter(richTextBoxSearchbox.Text); }
+        private void richTextBoxSearchbox_TextChanged(object sender, EventArgs e) 
+        {
+            if(richTextBoxSearchbox.Text == placeHolderText) { DataGridC.ClearFilter(); return; }
+            DataGridC.Filter(richTextBoxSearchbox.Text); 
+        }
+
     }
 
 }

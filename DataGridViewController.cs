@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -10,8 +11,10 @@ namespace TaskKiller
 {
     public static class DataGridViewController
     {
-        public static void UpdateDataGrid(this DataGridView DGV, ref List<ProcessInfo> pInfoList, ref int ProcCounter, Label totalProcsDisplay)
+        public static void UpdateDataGrid(this DataGridView DGV, ref List<ProcessInfo> pInfoList, ref int ProcCounter, RichTextBox totalProcsDisplay)
         {
+           
+
             // Initialise debug stuff
             DebugConsoleController D = ((UIForm)DGV.Parent.Parent.Parent).DbgCon;
             DebugStopwatch dstop = new DebugStopwatch(D);
@@ -25,10 +28,10 @@ namespace TaskKiller
             foreach (Process p in PList)
             {
                 // add new process to the list if not already in the list
-                if (!pInfoList.Any(x => x.ProcessID == p.Id.ToString()))
+                if (!pInfoList.Any(x => x.PID == p.Id.ToString()))
                 {
                     pInfoList.Add(new ProcessInfo(
-                        p, p.ProcessName, p.Id.ToString(), p.GetProcessRespondString(), Extend.PadMem8(p.PagedSystemMemorySize64), -1, null));
+                        p, p.ProcessName, -1, null));
 
                     D.DebugLog($"New proc: {p.Id} - {p.ProcessName}");
                 }
@@ -41,18 +44,25 @@ namespace TaskKiller
             {
                 //Rework all of this sometime soon
                 List<ProcessInfo> tempList = new List<ProcessInfo>(pInfoList);
-                if (!PList.Any(x => x.Id.ToString() == tempList[i].ProcessID))
+                if (!PList.Any(x => x.Id.ToString() == tempList[i].PID))
                 {
                     if (pInfoList[i].DisplayRowID != -1)
                     {
-                        foreach (DataGridViewRow d in DGV.Rows)
+                        try
                         {
-                            if (d.Cells[1].Value.ToString() == pInfoList[i].ProcessID)
+                            foreach (DataGridViewRow d in DGV.Rows)
                             {
-                                D.DebugLog($"Proc discarded: {pInfoList[i].ProcessID} - {pInfoList[i].ProcessName}");
-                                DGV.Rows.Remove(d);
-                                pInfoList.Remove(pInfoList.Find(x => x.ProcessID == tempList[i].ProcessID));
+                                if (d.Cells[1].Value.ToString() == pInfoList[i].PID)
+                                {
+                                    D.DebugLog($"Proc discarded: {pInfoList[i].PID} - {pInfoList[i].Name}");
+                                    DGV.Rows.Remove(d);
+                                    pInfoList.Remove(pInfoList.Find(x => x.PID == tempList[i].PID));
+                                }
                             }
+                        }
+                        catch (ArgumentOutOfRangeException)
+                        {
+                            D.DebugLog("Err during proc discard, continuing", System.Drawing.Color.OrangeRed);
                         }
                     }
                 }
@@ -60,7 +70,7 @@ namespace TaskKiller
 
             dstop.Elap("Proc discarding");
 
-            totalProcsDisplay.Text = pInfoList.Count.ToString();
+            totalProcsDisplay.Text = " " + pInfoList.Count.ToString() + " Procs";
             List<DataGridViewRow> bufferRows = new List<DataGridViewRow>();
 
             DebugStopwatch creationTime = new DebugStopwatch(D);
@@ -76,10 +86,11 @@ namespace TaskKiller
                     {
                         DataGridViewRow temp = new DataGridViewRow();
                         temp.CreateCells(DGV);
-                        temp.Cells[0].Value = pInfoList[i].ProcessName;
-                        temp.Cells[1].Value = pInfoList[i].ProcessID;
-                        temp.Cells[2].Value = pInfoList[i].ProcessStatus;
-                        temp.Cells[3].Value = pInfoList[i].ProcessMemory;
+                        temp.Cells[0].Value = pInfoList[i].Name;
+                        temp.Cells[1].Value = pInfoList[i].PID;
+                        temp.Cells[2].Value = pInfoList[i].Status;
+                        temp.Cells[3].Value = pInfoList[i].Memory;
+                        temp.Cells[4].Value = pInfoList[i].Memory_Raw; //This col is hidden, used for sorting col [3]
 
                         bufferRows.Add(temp);
                         // Name / Id / Status / Mem //
@@ -90,24 +101,22 @@ namespace TaskKiller
 
                         pInfoList[i].SetDisplayRowID(++ProcCounter);
                     }
-                    catch (Exception e) 
+                    catch (Exception e)
                     {
                         if (true)
                         {
-                            D.DebugLog($"Error: {pInfoList[i].ProcessName ?? "Unkown Proc"} - {e.Message}", System.Drawing.Color.OrangeRed);
+                            D.DebugLog($"Error: {pInfoList[i].Name ?? "Unkown Proc"} - {e.Message}", System.Drawing.Color.OrangeRed);
                         }
                     }
                     creationTime.Stop();
                 }
-                //If there's an associated row, find it and update it.
-                //This section is the one slowing down everything
-                // WHY THIS SO  S L O W  >:(
                 else
                 {
                     valueUpdateTime.Start();
 
-                    pInfoList[i].DisplayRowObj.Cells[2].Value = pInfoList[i].ProcessStatus;
-                    pInfoList[i].DisplayRowObj.Cells[3].Value = pInfoList[i].ProcessMemory;
+                    pInfoList[i].DisplayRowObj.Cells[2].Value = pInfoList[i].Status;
+                    pInfoList[i].DisplayRowObj.Cells[3].Value = pInfoList[i].Memory;
+                    pInfoList[i].DisplayRowObj.Cells[4].Value = pInfoList[i].Memory_Raw; //This col is hidden, used for sorting col [3]
 
                     valueUpdateTime.Stop();
                 }
@@ -117,11 +126,11 @@ namespace TaskKiller
 
             DateTime postBuildTime = DateTime.UtcNow;
             DGV.ColumnHeadersVisible = false;
-            DGV.SuspendLayout();
+            //DGV.SuspendLayout();
             DGV.Rows.AddRange(bufferRows.ToArray());
-            DGV.ResumeLayout();
+            //DGV.ResumeLayout();
             DGV.ColumnHeadersVisible = true;
-            
+
             creationTime.ElapPrint("- Row creation");
             valueUpdateTime.ElapPrint("- Row update");
 
@@ -129,6 +138,7 @@ namespace TaskKiller
             dstop.Reset();
 
             totalTime.ElapStop("Total Time");
+            
         }
 
         public static void Filter(this DataGridView DGV, string filtertext)
@@ -151,6 +161,29 @@ namespace TaskKiller
         public static void InitMiscDGVSettings(this DataGridView DGV)
         {
             DGV.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            DGV.ColumnHeaderMouseClick += DGV_HeaderClicked;
+        }
+
+        private static void DGV_HeaderClicked(object sender, EventArgs e)
+        {            
+            Sort((DataGridView)sender);
+        }
+
+
+        static bool sortDir = false;
+        public static void Sort(this DataGridView dgv)
+        {
+            if (dgv.Rows.Count == 0 || dgv.SortedColumn == null || dgv.SortOrder == SortOrder.None) { return; }
+            if(dgv.SortedColumn == dgv.Columns[3])
+            {
+                ListSortDirection LSD = sortDir ? ListSortDirection.Ascending : ListSortDirection.Descending;
+                sortDir = !sortDir;
+                dgv.Sort(dgv.Columns[4], LSD);
+            }
+            else
+            {
+                dgv.Sort(dgv.SortedColumn, dgv.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending);
+            }
         }
     }
 }
