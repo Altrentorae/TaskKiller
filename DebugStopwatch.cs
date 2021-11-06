@@ -11,8 +11,8 @@ namespace TaskKiller
         }
 
         public bool ForceDevCon { get; set; }
-        public System.Drawing.Color? textColor { get; set; }
-        private DebugConsoleController dbg;
+        public System.Drawing.Color? TextColor { get; set; }
+        private readonly DebugConsoleController dbg;
 
         [Conditional("DEBUG")]
         private void PushDebugString(string s)
@@ -20,7 +20,7 @@ namespace TaskKiller
             string msg = "[DSTOP] (" + s + "): ";
             if (dbg != null || !ForceDevCon)
             {
-                dbg.DebugLog(msg, textColor ?? System.Drawing.Color.Blue);
+                dbg.DebugLog(msg, TextColor ?? CONST.Colors.DefaultDSTOPColor);
             }
             else
             {

@@ -16,7 +16,14 @@ namespace TaskKiller
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new UIForm());
+            try
+            {
+                Application.Run(new UIForm());
+            }
+            catch(System.ObjectDisposedException)
+            {
+                Console.WriteLine("Application was disposed");
+            }
         }
     }
 }

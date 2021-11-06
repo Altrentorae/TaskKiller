@@ -17,15 +17,15 @@ namespace TaskKiller
             timer.Tick += Timer_Tick;
         }
 
-        private RichTextBox rtb;
-        private DebugConsoleController debugConsole;
-        Timer timer = new Timer();
+        private readonly RichTextBox rtb;
+        private readonly DebugConsoleController debugConsole;
+        private readonly Timer timer = new Timer();
 
         public void PushNew(string s, Color c, bool pushToDebug = true)
         {
             rtb.ForeColor = c;
             rtb.Text = s;
-            if (pushToDebug) { debugConsole.DebugLog("[NOTIF]: " + s, Color.DarkTurquoise); }
+            if (pushToDebug) { debugConsole.DebugLog("[NOTIF]: " + s, CONST.Colors.DefaultNOTIFColor); }
         }
 
         // To avoid potential overlapping timers this should always be called from a singular object

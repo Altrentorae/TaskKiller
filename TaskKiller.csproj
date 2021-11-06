@@ -35,6 +35,16 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugNoAdmin|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugNoAdmin\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;DEBUGNOADMIN</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System">
       <HintPath>..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.dll</HintPath>
@@ -54,6 +64,8 @@
     <Compile Include="AdvTimer.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="AuthorityManager.cs" />
+    <Compile Include="CONST.cs" />
     <Compile Include="DataGridViewController.cs" />
     <Compile Include="DebugConsoleController.cs" />
     <Compile Include="DebugStopwatch.cs" />
@@ -83,6 +95,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include=".editorconfig" />
     <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

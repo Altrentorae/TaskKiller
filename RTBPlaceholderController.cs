@@ -9,19 +9,23 @@ namespace TaskKiller
 {
     public static class RTBPlaceholderController
     {
+        public static System.Drawing.Color defColor1;
+        public static System.Drawing.Color placeColor1;
         public static void InitEvents(this RichTextBox rtb, string placeholderText)
         {
+            defColor1 = rtb.ForeColor;
+
             rtb.Enter += (s, e) =>
             {
-                if (rtb.Text == placeholderText) { rtb.Text = ""; rtb.ForeColor = System.Drawing.Color.Black; }
+                if (rtb.Text == placeholderText) { rtb.Text = ""; rtb.ForeColor = defColor1; }
             };
 
             rtb.Leave += (s, e) =>
             {
-                if (rtb.Text.Trim() == string.Empty) { rtb.Text = placeholderText; rtb.ForeColor = System.Drawing.Color.Gray; }
+                if (rtb.Text.Trim() == string.Empty) { rtb.Text = placeholderText; rtb.ForeColor = CONST.Colors.DefaultPlaceholderTextColor; }
             };
 
-            rtb.Text = placeholderText; rtb.ForeColor = System.Drawing.Color.Gray;
+            rtb.Text = placeholderText; rtb.ForeColor = CONST.Colors.DefaultPlaceholderTextColor;
         }
     }
 }

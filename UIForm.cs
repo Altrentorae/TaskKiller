@@ -12,6 +12,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
+
+#pragma warning disable IDE1006    // IDE naming rules
+
 namespace TaskKiller
 {
     public partial class UIForm : Form
@@ -23,10 +27,20 @@ namespace TaskKiller
         List<ProcessInfo> Processes = new List<ProcessInfo>();
         Process cmd;
         static AdvTimer t;
-        string placeHolderText = " Search Processes";
+        readonly string placeHolderText = CONST.Text.searchPlaceholder;
         public UIForm()
         {
             string[] args = Extend.GetArgs();
+            bool authValid = AuthorityManager.IsAdmin();
+
+            if(!authValid && !args.Contains(CONST.Flags.skipAuth))
+            {
+                AuthorityManager.RelaunchAsAdmin(args);
+                Application.Exit();
+                this.Close();
+                return;
+            }
+
 
             InitializeComponent();
 
@@ -43,12 +57,15 @@ namespace TaskKiller
             DbgCon.DebugLog("UI form init complete");
             this.InitShellProc(ref cmd, false);
 
+            if (authValid) { DbgCon.DebugLog("Admin perms valid", CONST.Colors.DefaultSuccessColor); }
+            else { DbgCon.DebugLog("Admin perms invalid!!", CONST.Colors.DefaultErrColor); }
+            
             t = new AdvTimer(5000, 1000);
             t.Tick += (s, e) => T_Tick(s, e);
             t.SubTick += (s, e) => T_SubTick(s, e);
 
-            refreshCountdownInit = (t.Interval/1000);
-            refreshCountdown = (t.Interval/1000);
+            //refreshCountdownInit = (t.Interval/1000);
+            //refreshCountdown = (t.Interval/1000);
 
             t.StartAll();
 
@@ -58,28 +75,22 @@ namespace TaskKiller
             richTextBoxSearchbox.InitEvents(placeHolderText);
         }
 
-        int refreshCountdownInit;
-        int refreshCountdown;
         private void T_Tick(object sender, EventArgs e)
         {
             buttonRefresh_Click(null, null);
-            refreshCountdown = refreshCountdownInit;
 
             while (true)
             {
                 ShellControl.ShellStatus status = ShellControl.CmdExists(cmd);
                 if(status == ShellControl.ShellStatus.Working) { break; }
-                if (status == ShellControl.ShellStatus.Null){ DbgCon.DebugLog("Shell instance not found", Color.Red); }
+                if(status == ShellControl.ShellStatus.Null) { DbgCon.DebugLog("Shell instance not found", Color.Red); }
                 if(status == ShellControl.ShellStatus.Hang) { DbgCon.DebugLog("Shell instance not responding", Color.Red); }
                 this.InitShellProc(ref cmd, false);
             }
 
         }
-        private void T_SubTick(object sender, EventArgs e)
-        {
-            refreshCountdown--;
-            //notifBox.PushNew("Refresh in: " + refreshCountdown, Color.White, false);
-        }
+        private void T_SubTick(object sender, EventArgs e) {}
+
         private void buttonRefresh_Click(object sender, EventArgs e)
         {
             DbgCon.DebugLog("-----Refreshing process list-----");
@@ -119,7 +130,6 @@ namespace TaskKiller
             if(richTextBoxSearchbox.Text == placeHolderText) { DataGridC.ClearFilter(); return; }
             DataGridC.Filter(richTextBoxSearchbox.Text); 
         }
-
     }
 
 }
