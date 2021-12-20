@@ -97,6 +97,7 @@ namespace TaskKiller
             DataGridC.UpdateDataGrid(ref Processes, ref processCount, totalProcBox);
             DbgCon.DebugLog("-----Refreshing process list complete-----\n", Color.Green);
             DataGridC.Sort();
+            richTextBoxSearchbox_TextChanged(null, null);
         }
         private void buttonRestartShell(object sender, EventArgs e)
         {
@@ -106,9 +107,41 @@ namespace TaskKiller
         {
             if(DataGridC.SelectedRows.Count < 1) { return; }
             if(cmd == null) { DbgCon.DebugLog("Failed to kill proc. No shell instance", Color.Red); return; }
+
+            bool multi = DataGridC.SelectedRows.Count > 1;
+            string msgText = multi ? "Kill Processes:\n" : "Kill Process:\n";
+
             foreach (DataGridViewRow row in DataGridC.SelectedRows)
             {
-                if(MessageBox.Show($"Kill Process {row.Cells[1].Value} - {row.Cells[0].Value} ", "Confirm Command", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                msgText += $"PID: {row.Cells[1].Value} - NAME: {row.Cells[0].Value}\n";
+            }
+
+            MessageBoxButtons mbb = multi ? MessageBoxButtons.YesNoCancel : MessageBoxButtons.YesNo;
+            MessageBoxManager.Yes = multi ? "Confirm ALL" : "Confirm";
+            MessageBoxManager.No = multi ? "Manage" : "Cancel";
+            MessageBoxManager.Cancel = "Cancel";
+            MessageBoxManager.Register();
+
+            DialogResult res = MessageBox.Show(msgText, "Confirm Command", mbb);
+            bool skipConfirmation = false;
+
+            MessageBoxManager.Unregister();
+
+            if (multi)
+            {
+                if(res == DialogResult.Yes) { skipConfirmation = true; }
+                if(res == DialogResult.No) {  }
+                if(res == DialogResult.Cancel) { return; }
+
+            }
+
+            foreach (DataGridViewRow row in DataGridC.SelectedRows)
+            {
+                bool innerConfirmation = true;
+                if (!skipConfirmation) { 
+                    innerConfirmation = MessageBox.Show($"Kill Process {row.Cells[1].Value} - {row.Cells[0].Value} ", "Confirm Command", MessageBoxButtons.YesNo) == DialogResult.Yes;
+                }
+                if (innerConfirmation)
                 {
                     DbgCon.DebugLog($"Del Proc: {row.Cells[1].Value} - {row.Cells[0].Value}");
                     cmd.KillProc(row.Cells[1].Value.ToString());
