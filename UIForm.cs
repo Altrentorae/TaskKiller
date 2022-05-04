@@ -113,6 +113,8 @@ namespace TaskKiller
 
             foreach (DataGridViewRow row in DataGridC.SelectedRows)
             {
+                if (!row.Visible) { row.Selected = false; continue; }
+
                 msgText += $"PID: {row.Cells[1].Value} - NAME: {row.Cells[0].Value}\n";
             }
 
@@ -133,6 +135,10 @@ namespace TaskKiller
                 if(res == DialogResult.No) {  }
                 if(res == DialogResult.Cancel) { return; }
 
+            }
+            else
+            {
+                skipConfirmation = true;
             }
 
             foreach (DataGridViewRow row in DataGridC.SelectedRows)
