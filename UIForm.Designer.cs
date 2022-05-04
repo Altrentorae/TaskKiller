@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UIForm));
             this.TabControlMain = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -85,8 +87,10 @@
             this.buttonRelaunchCmd.Name = "buttonRelaunchCmd";
             this.buttonRelaunchCmd.Size = new System.Drawing.Size(88, 35);
             this.buttonRelaunchCmd.TabIndex = 2;
+            this.buttonRelaunchCmd.TabStop = false;
             this.buttonRelaunchCmd.Text = "Restart Shell";
             this.buttonRelaunchCmd.UseVisualStyleBackColor = true;
+            this.buttonRelaunchCmd.Visible = false;
             this.buttonRelaunchCmd.Click += new System.EventHandler(this.buttonRestartShell);
             // 
             // buttonRefresh
@@ -96,8 +100,10 @@
             this.buttonRefresh.Name = "buttonRefresh";
             this.buttonRefresh.Size = new System.Drawing.Size(88, 35);
             this.buttonRefresh.TabIndex = 2;
+            this.buttonRefresh.TabStop = false;
             this.buttonRefresh.Text = "Refresh List";
             this.buttonRefresh.UseVisualStyleBackColor = true;
+            this.buttonRefresh.Visible = false;
             this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
             // 
             // DataGridC
@@ -105,6 +111,16 @@
             this.DataGridC.AllowUserToAddRows = false;
             this.DataGridC.AllowUserToDeleteRows = false;
             this.DataGridC.AllowUserToResizeRows = false;
+            this.DataGridC.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.DataGridC.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.BlueViolet;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DataGridC.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.DataGridC.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DataGridC.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ProcessName,
@@ -112,7 +128,16 @@
             this.ProcessStatus,
             this.Mem,
             this.Mem_Raw});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.BlueViolet;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataGridC.DefaultCellStyle = dataGridViewCellStyle2;
             this.DataGridC.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DataGridC.GridColor = System.Drawing.SystemColors.Control;
             this.DataGridC.Location = new System.Drawing.Point(3, 3);
             this.DataGridC.Name = "DataGridC";
             this.DataGridC.ReadOnly = true;
