@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UIForm));
             this.TabControlMain = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.buttonRelaunchCmd = new System.Windows.Forms.Button();
@@ -243,6 +244,7 @@
             this.Controls.Add(this.buttonKill);
             this.Controls.Add(this.TabControlMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "UIForm";
             this.Text = "TaskKiller";
             this.TabControlMain.ResumeLayout(false);
