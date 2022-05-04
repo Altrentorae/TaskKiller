@@ -50,7 +50,9 @@ namespace TaskKiller
             }
 
             DataGridC.InitMiscDGVSettings();
-            RichTextBox DgbTextBox = (RichTextBox)TabControlMain.TabPages[1].Controls[0];
+            DataGridC.Columns[0].Width = 380;
+
+            RichTextBox DgbTextBox = dbgConsoleTxtbox;
             DbgCon = new DebugConsoleController(DgbTextBox);
             notifBox = new NotificationTextboxController(notificationRtb, DbgCon);
             DbgCon.DebugLogInitAutoScroll();
@@ -73,6 +75,8 @@ namespace TaskKiller
 
             
             richTextBoxSearchbox.InitEvents(placeHolderText);
+            DataGridC.ClearSelection();
+            DataGridC.ClearSelection();
         }
 
         private void T_Tick(object sender, EventArgs e)
@@ -168,6 +172,46 @@ namespace TaskKiller
         {
             if(richTextBoxSearchbox.Text == placeHolderText) { DataGridC.ClearFilter(); return; }
             DataGridC.Filter(richTextBoxSearchbox.Text); 
+        }
+
+        bool bTimerCreated = false;
+        Timer moveLoop = new Timer()
+        {
+            Interval = 10,
+        };
+
+        private void DragPanel_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (!bTimerCreated) { moveLoop.Tick += (s, ie) => { 
+                bTimerCreated = true;
+                this.Left = MousePosition.X;
+                this.Top = MousePosition.Y;
+                    
+                    
+                Console.WriteLine("W: "+this.Location);
+                Console.WriteLine("M: "+MousePosition);
+            }; 
+            }
+            if(e.Button == MouseButtons.Left)
+            {
+                moveLoop.Start();
+            }
+        }
+
+        private void DragPanel_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                moveLoop.Stop();
+            }
+        }
+
+        private void DataGridC_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                DataGridC.ClearSelection();
+            }
         }
     }
 

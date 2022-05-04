@@ -30,97 +30,52 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UIForm));
-            this.TabControlMain = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.buttonRelaunchCmd = new System.Windows.Forms.Button();
-            this.buttonRefresh = new System.Windows.Forms.Button();
             this.DataGridC = new System.Windows.Forms.DataGridView();
             this.ProcessName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ProcessId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ProcessStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Mem = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Mem_Raw = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.dbgConsoleTxtbox = new System.Windows.Forms.RichTextBox();
+            this.buttonRelaunchCmd = new System.Windows.Forms.Button();
+            this.buttonRefresh = new System.Windows.Forms.Button();
             this.buttonKill = new System.Windows.Forms.Button();
             this.notificationRtb = new System.Windows.Forms.RichTextBox();
             this.richTextBoxSearchbox = new System.Windows.Forms.RichTextBox();
             this.totalProcBox = new System.Windows.Forms.RichTextBox();
-            this.TabControlMain.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.DragPanel = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridC)).BeginInit();
-            this.tabPage2.SuspendLayout();
+            this.DragPanel.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // TabControlMain
-            // 
-            this.TabControlMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TabControlMain.Controls.Add(this.tabPage1);
-            this.TabControlMain.Controls.Add(this.tabPage2);
-            this.TabControlMain.Location = new System.Drawing.Point(13, 12);
-            this.TabControlMain.Name = "TabControlMain";
-            this.TabControlMain.SelectedIndex = 0;
-            this.TabControlMain.Size = new System.Drawing.Size(680, 567);
-            this.TabControlMain.TabIndex = 0;
-            this.TabControlMain.SelectedIndexChanged += new System.EventHandler(this.TabPages_SelectedIndexChanged);
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.buttonRelaunchCmd);
-            this.tabPage1.Controls.Add(this.buttonRefresh);
-            this.tabPage1.Controls.Add(this.DataGridC);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(672, 541);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Processes";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // buttonRelaunchCmd
-            // 
-            this.buttonRelaunchCmd.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonRelaunchCmd.Location = new System.Drawing.Point(469, 47);
-            this.buttonRelaunchCmd.Name = "buttonRelaunchCmd";
-            this.buttonRelaunchCmd.Size = new System.Drawing.Size(88, 35);
-            this.buttonRelaunchCmd.TabIndex = 2;
-            this.buttonRelaunchCmd.TabStop = false;
-            this.buttonRelaunchCmd.Text = "Restart Shell";
-            this.buttonRelaunchCmd.UseVisualStyleBackColor = true;
-            this.buttonRelaunchCmd.Visible = false;
-            this.buttonRelaunchCmd.Click += new System.EventHandler(this.buttonRestartShell);
-            // 
-            // buttonRefresh
-            // 
-            this.buttonRefresh.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonRefresh.Location = new System.Drawing.Point(469, 6);
-            this.buttonRefresh.Name = "buttonRefresh";
-            this.buttonRefresh.Size = new System.Drawing.Size(88, 35);
-            this.buttonRefresh.TabIndex = 2;
-            this.buttonRefresh.TabStop = false;
-            this.buttonRefresh.Text = "Refresh List";
-            this.buttonRefresh.UseVisualStyleBackColor = true;
-            this.buttonRefresh.Visible = false;
-            this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
             // 
             // DataGridC
             // 
             this.DataGridC.AllowUserToAddRows = false;
             this.DataGridC.AllowUserToDeleteRows = false;
             this.DataGridC.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.BlueViolet;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
+            this.DataGridC.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.DataGridC.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(32)))), ((int)(((byte)(38)))));
             this.DataGridC.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.DataGridC.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.BlueViolet;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DataGridC.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.DataGridC.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.BlueViolet;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DataGridC.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.DataGridC.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DataGridC.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ProcessName,
@@ -128,22 +83,36 @@
             this.ProcessStatus,
             this.Mem,
             this.Mem_Raw});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.BlueViolet;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataGridC.DefaultCellStyle = dataGridViewCellStyle2;
-            this.DataGridC.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DataGridC.GridColor = System.Drawing.SystemColors.Control;
-            this.DataGridC.Location = new System.Drawing.Point(3, 3);
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.BlueViolet;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataGridC.DefaultCellStyle = dataGridViewCellStyle3;
+            this.DataGridC.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.DataGridC.EnableHeadersVisualStyles = false;
+            this.DataGridC.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.DataGridC.Location = new System.Drawing.Point(-1, 27);
             this.DataGridC.Name = "DataGridC";
             this.DataGridC.ReadOnly = true;
+            this.DataGridC.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.BlueViolet;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataGridC.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.DataGridC.RowHeadersVisible = false;
+            this.DataGridC.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.DataGridC.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DataGridC.Size = new System.Drawing.Size(666, 535);
+            this.DataGridC.Size = new System.Drawing.Size(687, 597);
             this.DataGridC.TabIndex = 0;
+            this.DataGridC.TabStop = false;
+            this.DataGridC.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DataGridC_MouseDown);
             // 
             // ProcessName
             // 
@@ -179,35 +148,53 @@
             this.Mem_Raw.ReadOnly = true;
             this.Mem_Raw.Visible = false;
             // 
-            // tabPage2
+            // dbgConsoleTxtbox
             // 
-            this.tabPage2.Controls.Add(this.richTextBox1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(672, 541);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Debug";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.dbgConsoleTxtbox.BackColor = System.Drawing.Color.Black;
+            this.dbgConsoleTxtbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dbgConsoleTxtbox.ForeColor = System.Drawing.Color.LightGray;
+            this.dbgConsoleTxtbox.Location = new System.Drawing.Point(686, 27);
+            this.dbgConsoleTxtbox.Name = "dbgConsoleTxtbox";
+            this.dbgConsoleTxtbox.ReadOnly = true;
+            this.dbgConsoleTxtbox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.dbgConsoleTxtbox.Size = new System.Drawing.Size(386, 650);
+            this.dbgConsoleTxtbox.TabIndex = 0;
+            this.dbgConsoleTxtbox.TabStop = false;
+            this.dbgConsoleTxtbox.Text = "";
+            this.dbgConsoleTxtbox.WordWrap = false;
             // 
-            // richTextBox1
+            // buttonRelaunchCmd
             // 
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Location = new System.Drawing.Point(3, 3);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(666, 535);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.TabStop = false;
-            this.richTextBox1.Text = "";
-            this.richTextBox1.WordWrap = false;
+            this.buttonRelaunchCmd.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.buttonRelaunchCmd.Location = new System.Drawing.Point(372, 35);
+            this.buttonRelaunchCmd.Name = "buttonRelaunchCmd";
+            this.buttonRelaunchCmd.Size = new System.Drawing.Size(88, 35);
+            this.buttonRelaunchCmd.TabIndex = 2;
+            this.buttonRelaunchCmd.TabStop = false;
+            this.buttonRelaunchCmd.Text = "Restart Shell";
+            this.buttonRelaunchCmd.UseVisualStyleBackColor = true;
+            this.buttonRelaunchCmd.Visible = false;
+            this.buttonRelaunchCmd.Click += new System.EventHandler(this.buttonRestartShell);
+            // 
+            // buttonRefresh
+            // 
+            this.buttonRefresh.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.buttonRefresh.Location = new System.Drawing.Point(522, 53);
+            this.buttonRefresh.Name = "buttonRefresh";
+            this.buttonRefresh.Size = new System.Drawing.Size(88, 35);
+            this.buttonRefresh.TabIndex = 2;
+            this.buttonRefresh.TabStop = false;
+            this.buttonRefresh.Text = "Refresh List";
+            this.buttonRefresh.UseVisualStyleBackColor = true;
+            this.buttonRefresh.Visible = false;
+            this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
             // 
             // buttonKill
             // 
-            this.buttonKill.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonKill.Location = new System.Drawing.Point(598, 585);
+            this.buttonKill.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.buttonKill.Location = new System.Drawing.Point(592, 630);
             this.buttonKill.Name = "buttonKill";
-            this.buttonKill.Size = new System.Drawing.Size(88, 35);
+            this.buttonKill.Size = new System.Drawing.Size(88, 39);
             this.buttonKill.TabIndex = 2;
             this.buttonKill.Text = "Kill Process";
             this.buttonKill.UseVisualStyleBackColor = true;
@@ -215,14 +202,15 @@
             // 
             // notificationRtb
             // 
-            this.notificationRtb.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.notificationRtb.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.notificationRtb.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.notificationRtb.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.notificationRtb.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.notificationRtb.ForeColor = System.Drawing.SystemColors.Window;
-            this.notificationRtb.Location = new System.Drawing.Point(119, 585);
+            this.notificationRtb.Location = new System.Drawing.Point(113, 630);
             this.notificationRtb.Name = "notificationRtb";
             this.notificationRtb.ReadOnly = true;
-            this.notificationRtb.Size = new System.Drawing.Size(241, 35);
+            this.notificationRtb.Size = new System.Drawing.Size(241, 39);
             this.notificationRtb.TabIndex = 3;
             this.notificationRtb.Text = "";
             this.notificationRtb.WordWrap = false;
@@ -230,15 +218,16 @@
             // richTextBoxSearchbox
             // 
             this.richTextBoxSearchbox.AcceptsTab = true;
-            this.richTextBoxSearchbox.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.richTextBoxSearchbox.BackColor = System.Drawing.Color.White;
+            this.richTextBoxSearchbox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.richTextBoxSearchbox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.richTextBoxSearchbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.richTextBoxSearchbox.DetectUrls = false;
             this.richTextBoxSearchbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBoxSearchbox.ForeColor = System.Drawing.Color.Black;
-            this.richTextBoxSearchbox.Location = new System.Drawing.Point(366, 585);
+            this.richTextBoxSearchbox.Location = new System.Drawing.Point(360, 630);
             this.richTextBoxSearchbox.Multiline = false;
             this.richTextBoxSearchbox.Name = "richTextBoxSearchbox";
-            this.richTextBoxSearchbox.Size = new System.Drawing.Size(226, 35);
+            this.richTextBoxSearchbox.Size = new System.Drawing.Size(226, 39);
             this.richTextBoxSearchbox.TabIndex = 3;
             this.richTextBoxSearchbox.Text = "";
             this.richTextBoxSearchbox.WordWrap = false;
@@ -246,46 +235,87 @@
             // 
             // totalProcBox
             // 
-            this.totalProcBox.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.totalProcBox.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.totalProcBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.totalProcBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.totalProcBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.totalProcBox.ForeColor = System.Drawing.SystemColors.Window;
-            this.totalProcBox.Location = new System.Drawing.Point(17, 585);
+            this.totalProcBox.Location = new System.Drawing.Point(5, 630);
             this.totalProcBox.Name = "totalProcBox";
             this.totalProcBox.ReadOnly = true;
-            this.totalProcBox.Size = new System.Drawing.Size(96, 35);
+            this.totalProcBox.Size = new System.Drawing.Size(102, 39);
             this.totalProcBox.TabIndex = 4;
             this.totalProcBox.Text = "";
             this.totalProcBox.WordWrap = false;
+            // 
+            // DragPanel
+            // 
+            this.DragPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.DragPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(29)))), ((int)(((byte)(29)))));
+            this.DragPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.DragPanel.Controls.Add(this.label1);
+            this.DragPanel.Location = new System.Drawing.Point(0, 2);
+            this.DragPanel.Name = "DragPanel";
+            this.DragPanel.Size = new System.Drawing.Size(1072, 30);
+            this.DragPanel.TabIndex = 5;
+            this.DragPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DragPanel_MouseDown);
+            this.DragPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DragPanel_MouseUp);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(10, 4);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(76, 20);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "TaskKiller";
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.DataGridC);
+            this.panel1.Controls.Add(this.richTextBoxSearchbox);
+            this.panel1.Controls.Add(this.buttonKill);
+            this.panel1.Controls.Add(this.dbgConsoleTxtbox);
+            this.panel1.Controls.Add(this.buttonRefresh);
+            this.panel1.Controls.Add(this.totalProcBox);
+            this.panel1.Controls.Add(this.buttonRelaunchCmd);
+            this.panel1.Controls.Add(this.notificationRtb);
+            this.panel1.Location = new System.Drawing.Point(0, 2);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1072, 678);
+            this.panel1.TabIndex = 6;
             // 
             // UIForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(705, 632);
-            this.Controls.Add(this.totalProcBox);
-            this.Controls.Add(this.richTextBoxSearchbox);
-            this.Controls.Add(this.notificationRtb);
-            this.Controls.Add(this.buttonKill);
-            this.Controls.Add(this.TabControlMain);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(12)))), ((int)(((byte)(17)))));
+            this.ClientSize = new System.Drawing.Size(1072, 680);
+            this.Controls.Add(this.DragPanel);
+            this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "UIForm";
             this.Text = "TaskKiller";
-            this.TabControlMain.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DataGridC)).EndInit();
-            this.tabPage2.ResumeLayout(false);
+            this.DragPanel.ResumeLayout(false);
+            this.DragPanel.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.TabControl TabControlMain;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox dbgConsoleTxtbox;
         private System.Windows.Forms.DataGridView DataGridC;
         private System.Windows.Forms.Button buttonKill;
         private System.Windows.Forms.Button buttonRefresh;
@@ -298,6 +328,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Mem;
         private System.Windows.Forms.DataGridViewTextBoxColumn Mem_Raw;
         private System.Windows.Forms.RichTextBox totalProcBox;
+        private System.Windows.Forms.Panel DragPanel;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 

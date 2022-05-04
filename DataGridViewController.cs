@@ -16,7 +16,7 @@ namespace TaskKiller
            
 
             // Initialise debug stuff
-            DebugConsoleController D = ((UIForm)DGV.Parent.Parent.Parent).DbgCon;
+            DebugConsoleController D = ((UIForm)DGV.Parent.Parent).DbgCon;
             DebugStopwatch dstop = new DebugStopwatch(D);
             DebugStopwatch totalTime = new DebugStopwatch(D);
 
