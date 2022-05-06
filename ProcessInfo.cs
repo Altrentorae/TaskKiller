@@ -38,22 +38,36 @@ namespace TaskKiller
 
         public void RefreshProc()
         {
-            if (false) { return; }
+            return;
             Root.Refresh();
         }
 
         public string GetStatus()
         {
-            if(false) { return "Discarding"; }
+            //return "Working";
+            try { if (Root.MainWindowTitle == "") { return "Working (nw)"; } }
+            catch (InvalidOperationException) { return "Discarding"; }
             return Root.GetProcessRespondString();
+        }
+
+        public string GetMemory()
+        {
+            try { return Extend.ToSize(Root.WorkingSet64, Extend.SizeUnits.AUTO) + "" ?? "Mem Err"; }
+            catch (InvalidOperationException) { return "00 GC"; }
+        }
+
+        public string GetMemory_Raw()
+        {
+            try { return Extend.PadMem(Root.WorkingSet64, 16); }
+            catch (InvalidOperationException) { return "0000000000000000"; }
         }
 
         public Process Root;
         public string Name;
         public string PID;
         public string Status { get => GetStatus(); }
-        public string Memory { get => Extend.ToSize(Root.WorkingSet64, Extend.SizeUnits.AUTO) + ""  ?? "Mem Err"; }
-        public string Memory_Raw { get => Extend.PadMem(Root.WorkingSet64, 16); }
+        public string Memory { get => GetMemory(); }
+        public string Memory_Raw { get => GetMemory_Raw(); }
 
         public int DisplayRowID;
         public DataGridViewRow DisplayRowObj; 

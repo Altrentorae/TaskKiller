@@ -5,7 +5,7 @@ namespace TaskKiller
 {
     public class DebugStopwatch : System.Diagnostics.Stopwatch
     {
-        public DebugStopwatch(DebugConsoleController _dbg)
+        public DebugStopwatch(DebugConsoleController _dbg = null)
         {
             dbg = _dbg;
         }
@@ -13,6 +13,13 @@ namespace TaskKiller
         public bool ForceDevCon { get; set; }
         public System.Drawing.Color? TextColor { get; set; }
         private readonly DebugConsoleController dbg;
+
+        public void ElapStopDevEnv(string msg)
+        {
+            if (!this.IsRunning) { return; }
+            Console.WriteLine(msg + " " + this.Elapsed.TotalMilliseconds.ToString());
+            this.Stop();
+        }
 
         [Conditional("DEBUG")]
         private void PushDebugString(string s)

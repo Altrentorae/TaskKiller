@@ -74,6 +74,9 @@ namespace TaskKiller
 
             DebugStopwatch creationTime = new DebugStopwatch(D);
             DebugStopwatch valueUpdateTime = new DebugStopwatch(D);
+            DebugStopwatch VUStatus = new DebugStopwatch(D);
+            DebugStopwatch VUMem = new DebugStopwatch(D);
+            DebugStopwatch VURMem = new DebugStopwatch(D);
 
             for (int i = 0; i < pInfoList.Count; i++)
             {
@@ -110,11 +113,20 @@ namespace TaskKiller
                 {
                     valueUpdateTime.Start();
 
+                    
                     pInfoList[i].RefreshProc();
-
+                    
+                    VUStatus.Start();
                     pInfoList[i].DisplayRowObj.Cells[2].Value = pInfoList[i].Status;
+                    VUStatus.Stop();
+
+                    VUMem.Start();
                     pInfoList[i].DisplayRowObj.Cells[3].Value = pInfoList[i].Memory;
+                    VUMem.Stop();
+
+                    VURMem.Start();
                     pInfoList[i].DisplayRowObj.Cells[4].Value = pInfoList[i].Memory_Raw; //This col is hidden, used for sorting col [3]
+                    VURMem.Stop();
 
                     valueUpdateTime.Stop();
                 }
@@ -133,6 +145,9 @@ namespace TaskKiller
 
             creationTime.ElapPrint("- Row creation");
             valueUpdateTime.ElapPrint("- Row update");
+            VUStatus.ElapPrint("--Status");
+            VUMem.ElapPrint("--Mem");
+            VURMem.ElapPrint("--RawMem");
 
             colTime.Start();
             ColourRows(DGV);
@@ -170,7 +185,7 @@ namespace TaskKiller
                 if(row.Cells[2].Value == null) { continue; }
                 if (i % 2 == 0)
                 {
-                    if (row.Cells[2].Value.ToString() != "Working") 
+                    if (row.Cells[2].Value.ToString() != "Working" && row.Cells[2].Value.ToString() != "Working (nw)")
                     {
                         row.DefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(255, 200, 30, 30); 
                     }
@@ -182,7 +197,7 @@ namespace TaskKiller
                 }
                 else
                 {
-                    if (row.Cells[2].Value.ToString() != "Working") 
+                    if (row.Cells[2].Value.ToString() != "Working" && row.Cells[2].Value.ToString() != "Working (nw)") 
                     { 
                         row.DefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(255, 160, 30, 30); 
                     }

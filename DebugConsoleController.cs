@@ -50,6 +50,7 @@ namespace TaskKiller
             box.SelectionColor = color;
             box.AppendText(text);
             box.SelectionColor = box.ForeColor;
+            
         }
     }
 }
