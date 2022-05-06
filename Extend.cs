@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,12 @@ namespace TaskKiller
 {
     public static class Extend
     {
+
+        public static Color adjustBrightness(this Color c, float mod)
+        {
+            return Color.FromArgb(255, (int)(c.R * mod), (int)(c.G * mod), (int)(c.B * mod));
+        }
+
         public static Process[] GetAllProcesses()
         {
             return Process.GetProcesses();

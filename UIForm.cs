@@ -50,11 +50,11 @@ namespace TaskKiller
             }
 
             DataGridC.InitMiscDGVSettings();
-            DataGridC.Columns[0].Width = 380;
+            DataGridC.Columns[0].Width = 280;
 
             RichTextBox DgbTextBox = dbgConsoleTxtbox;
             DbgCon = new DebugConsoleController(DgbTextBox);
-            notifBox = new NotificationTextboxController(notificationRtb, DbgCon);
+            //notifBox = new NotificationTextboxController(notificationRtb, DbgCon);
             DbgCon.DebugLogInitAutoScroll();
             DbgCon.DebugLog("UI form init complete");
             this.InitShellProc(ref cmd, false);
@@ -75,8 +75,9 @@ namespace TaskKiller
 
             
             richTextBoxSearchbox.InitEvents(placeHolderText);
-            DataGridC.ClearSelection();
-            DataGridC.ClearSelection();
+            this.Shown += (s, e) => { DataGridC.ClearSelection(); };
+            buttonQuit.FlatAppearance.BorderSize = 0;
+            buttonMinimise.FlatAppearance.BorderSize = 0;
         }
 
         private void T_Tick(object sender, EventArgs e)
@@ -98,11 +99,40 @@ namespace TaskKiller
         private void buttonRefresh_Click(object sender, EventArgs e)
         {
             DbgCon.DebugLog("-----Refreshing process list-----");
-            DataGridC.UpdateDataGrid(ref Processes, ref processCount, totalProcBox);
+            DataGridC.UpdateDataGrid(ref Processes, ref processCount);
             DbgCon.DebugLog("-----Refreshing process list complete-----\n", Color.Green);
             DataGridC.Sort();
             richTextBoxSearchbox_TextChanged(null, null);
+            UpdateProcCountBox();
+            
         }
+
+        private void DataGridC_SelectionChanged(object sender, EventArgs e)
+        {
+            UpdateProcCountBox();
+            UpdateClearButton();
+            short rCount = (short)DataGridC.SelectedRows.Count;
+            if (rCount < 1) 
+            {
+                buttonKill.ForeColor = Color.Silver;
+                buttonKill.Enabled = false;
+            }
+            else if (rCount >= 1) 
+            {
+                buttonKill.ForeColor = Color.Red;
+                buttonKill.Enabled = true; 
+            }
+        }
+
+        private void UpdateProcCountBox()
+        {
+            totalProcBox.Text = DataGridC.SelectedRows.Count < 1
+                ? DataGridC.Rows.Count.ToString() + " Procs" :
+                  "(" + DataGridC.SelectedRows.Count + ") of " + DataGridC.Rows.Count.ToString() + " Procs";
+            totalProcBox.SelectAll();
+            totalProcBox.SelectionAlignment = HorizontalAlignment.Center;
+        }
+
         private void buttonRestartShell(object sender, EventArgs e)
         {
             this.InitShellProc(ref cmd, false); 
@@ -110,7 +140,7 @@ namespace TaskKiller
         private void buttonKill_Click(object sender, EventArgs e)
         {
             if(DataGridC.SelectedRows.Count < 1) { return; }
-            if(cmd == null) { DbgCon.DebugLog("Failed to kill proc. No shell instance", Color.Red); return; }
+            if(cmd == null || cmd.HasExited) { DbgCon.DebugLog("Failed to kill proc. No shell instance", Color.Red); return; }
 
             bool multi = DataGridC.SelectedRows.Count > 1;
             string msgText = multi ? "Kill Processes:\n" : "Kill Process:\n";
@@ -138,11 +168,11 @@ namespace TaskKiller
                 if(res == DialogResult.Yes) { skipConfirmation = true; }
                 if(res == DialogResult.No) {  }
                 if(res == DialogResult.Cancel) { return; }
-
             }
             else
             {
                 skipConfirmation = true;
+                if(res == DialogResult.No) { return; }
             }
 
             foreach (DataGridViewRow row in DataGridC.SelectedRows)
@@ -171,31 +201,33 @@ namespace TaskKiller
         private void richTextBoxSearchbox_TextChanged(object sender, EventArgs e) 
         {
             if(richTextBoxSearchbox.Text == placeHolderText) { DataGridC.ClearFilter(); return; }
-            DataGridC.Filter(richTextBoxSearchbox.Text); 
+            DataGridC.Filter(richTextBoxSearchbox.Text);
+            UpdateClearButton();
+            DataGridC.ColourRows();
         }
 
         bool bTimerCreated = false;
         Timer moveLoop = new Timer()
         {
-            Interval = 10,
+            Interval = 1,
         };
 
         private void DragPanel_MouseDown(object sender, MouseEventArgs e)
         {
-            if (!bTimerCreated) { moveLoop.Tick += (s, ie) => { 
-                bTimerCreated = true;
-                this.Left = MousePosition.X;
-                this.Top = MousePosition.Y;
-                    
-                    
-                Console.WriteLine("W: "+this.Location);
-                Console.WriteLine("M: "+MousePosition);
-            }; 
+            if (!bTimerCreated) {
+                moveLoop.Tick += MoveLoop_Tick;
             }
             if(e.Button == MouseButtons.Left)
             {
+                DragOffset = new Point(MousePosition.X - Location.X, MousePosition.Y - Location.Y);
                 moveLoop.Start();
             }
+        }
+        Point DragOffset;
+        private void MoveLoop_Tick(object sender, EventArgs e)
+        {
+            bTimerCreated = true;
+            this.Location = new Point(MousePosition.X - DragOffset.X, MousePosition.Y - DragOffset.Y) ;
         }
 
         private void DragPanel_MouseUp(object sender, MouseEventArgs e)
@@ -212,6 +244,53 @@ namespace TaskKiller
             {
                 DataGridC.ClearSelection();
             }
+        }
+
+        private void buttonClear_Click(object sender, EventArgs e)
+        {
+            DataGridC.ClearSelection();
+            RTBPlaceholderController.ClearAll(richTextBoxSearchbox, " Search Processes");
+            DataGridC.Select();
+            DataGridC.ColourRows();
+        }
+
+        private void UpdateClearButton()
+        {
+            short rCount = (short)DataGridC.SelectedRows.Count;
+            if (rCount >= 1 || (richTextBoxSearchbox.Text != " Search Processes" && richTextBoxSearchbox.Text.Trim() != ""))
+            {
+                buttonClear.ForeColor = Color.BlueViolet;
+                buttonClear.Enabled = true;
+            }
+            else if (rCount < 1)
+            {
+                buttonClear.ForeColor = Color.Silver;
+                buttonClear.Enabled = false;
+            }
+            
+        }
+
+        private void buttonQuit_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        private void buttonMin_Click(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Minimized;
+        }
+
+        private void UIForm_Activated(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Normal) { 
+                //this.TopMost = true; 
+            }
+            else { this.TopMost = false; }
+        }
+
+        private void UIForm_Deactivate(object sender, EventArgs e)
+        {
+            
         }
     }
 

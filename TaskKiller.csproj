@@ -76,6 +76,7 @@
     <Compile Include="MemoryDataRowComparer.cs" />
     <Compile Include="MessageBoxManager.cs" />
     <Compile Include="NotificationTextboxController.cs" />
+    <Compile Include="ProcessInfo.cs" />
     <Compile Include="RTBPlaceholderController.cs" />
     <Compile Include="UIForm.cs">
       <SubType>Form</SubType>
@@ -83,7 +84,6 @@
     <Compile Include="UIForm.Designer.cs">
       <DependentUpon>UIForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ProcessInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShellControl.cs" />

@@ -11,13 +11,12 @@ namespace TaskKiller
 {
     public static class DataGridViewController
     {
-        public static void UpdateDataGrid(this DataGridView DGV, ref List<ProcessInfo> pInfoList, ref int ProcCounter, RichTextBox totalProcsDisplay)
+        public static void UpdateDataGrid(this DataGridView DGV, ref List<ProcessInfo> pInfoList, ref int ProcCounter)
         {
-           
-
             // Initialise debug stuff
             DebugConsoleController D = ((UIForm)DGV.Parent.Parent).DbgCon;
             DebugStopwatch dstop = new DebugStopwatch(D);
+            DebugStopwatch colTime = new DebugStopwatch(D);
             DebugStopwatch totalTime = new DebugStopwatch(D);
 
             totalTime.Start();
@@ -54,7 +53,7 @@ namespace TaskKiller
                             {
                                 if (d.Cells[1].Value.ToString() == pInfoList[i].PID)
                                 {
-                                    D.DebugLog($"Proc discarded: {pInfoList[i].PID} - {pInfoList[i].Name}");
+                                    D.DebugLog($"Proc discarded: {pInfoList[i].PID} - {pInfoList[i].Name}", System.Drawing.Color.Orange);
                                     DGV.Rows.Remove(d);
                                     pInfoList.Remove(pInfoList.Find(x => x.PID == tempList[i].PID));
                                 }
@@ -70,7 +69,7 @@ namespace TaskKiller
 
             dstop.Elap("Proc discarding");
 
-            totalProcsDisplay.Text = " " + pInfoList.Count.ToString() + " Procs";
+            
             List<DataGridViewRow> bufferRows = new List<DataGridViewRow>();
 
             DebugStopwatch creationTime = new DebugStopwatch(D);
@@ -82,8 +81,8 @@ namespace TaskKiller
                 if (pInfoList[i].DisplayRowID == -1)
                 {
                     creationTime.Start();
-                    try
-                    {
+                    //try
+                    //{
                         DataGridViewRow temp = new DataGridViewRow();
                         temp.CreateCells(DGV);
                         temp.Cells[0].Value = pInfoList[i].Name;
@@ -100,19 +99,18 @@ namespace TaskKiller
                         pInfoList[i].DisplayRowObj = temp;
 
                         pInfoList[i].SetDisplayRowID(++ProcCounter);
-                    }
-                    catch (Exception e)
-                    {
-                        if (true)
-                        {
-                            D.DebugLog($"Error: {pInfoList[i].Name ?? "Unkown Proc"} - {e.Message}", System.Drawing.Color.OrangeRed);
-                        }
-                    }
+                    //}
+                    //catch (Exception e)
+                    //{
+                        //D.DebugLog($"Error: {pInfoList[i].Name ?? "Unkown Proc"} - {e.Message}", System.Drawing.Color.OrangeRed);  
+                    //}
                     creationTime.Stop();
                 }
                 else
                 {
                     valueUpdateTime.Start();
+
+                    pInfoList[i].RefreshProc();
 
                     pInfoList[i].DisplayRowObj.Cells[2].Value = pInfoList[i].Status;
                     pInfoList[i].DisplayRowObj.Cells[3].Value = pInfoList[i].Memory;
@@ -130,15 +128,20 @@ namespace TaskKiller
             DGV.Rows.AddRange(bufferRows.ToArray());
             //DGV.ResumeLayout();
             DGV.ColumnHeadersVisible = true;
+            
+            if(DGV.SelectedRows.Count < 1){ DGV.ClearSelection(); }
 
             creationTime.ElapPrint("- Row creation");
             valueUpdateTime.ElapPrint("- Row update");
+
+            colTime.Start();
+            ColourRows(DGV);
+            colTime.ElapStop("- Row Col");
 
             dstop.Elap("DGV draw");
             dstop.Reset();
 
             totalTime.ElapStop("Total Time");
-            
         }
 
         public static void Filter(this DataGridView DGV, string filtertext)
@@ -148,6 +151,48 @@ namespace TaskKiller
                 if (filtertext.Trim() == String.Empty) { row.Visible = true; continue; }
                 row.Visible = row.Cells[0].Value.ToString().ToLower().Contains(filtertext.ToLower()) || row.Cells[1].Value.ToString().ToLower().Contains(filtertext.ToLower());
             }
+            if (DGV.SelectedRows.Count < 1) { DGV.ClearSelection(); }
+            ColourRows(DGV);
+        }
+
+        public static void ColourRows(this DataGridView DGV)
+        {
+
+            List<DataGridViewRow> viewRows = new List<DataGridViewRow>();
+            foreach(DataGridViewRow row in DGV.Rows)
+            {
+                if (row.Visible) { viewRows.Add(row); }
+            }
+            if(viewRows.Count == 0) { return; }
+            for(int i = 0; i < viewRows.Count; i++)
+            {
+                DataGridViewRow row = viewRows[i];
+                if(row.Cells[2].Value == null) { continue; }
+                if (i % 2 == 0)
+                {
+                    if (row.Cells[2].Value.ToString() != "Working") 
+                    {
+                        row.DefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(255, 200, 30, 30); 
+                    }
+                    else 
+                    { 
+                        row.DefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(255, 64, 64, 64);
+                        row.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.BlueViolet;
+                    }
+                }
+                else
+                {
+                    if (row.Cells[2].Value.ToString() != "Working") 
+                    { 
+                        row.DefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(255, 160, 30, 30); 
+                    }
+                    else 
+                    { 
+                        row.DefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(255, 94, 94, 94);
+                        row.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.BlueViolet.adjustBrightness(0.9f);
+                    }
+                }
+            }
         }
 
         public static void ClearFilter(this DataGridView DGV)
@@ -156,6 +201,8 @@ namespace TaskKiller
             {
                 row.Visible = true;
             }
+            if (DGV.SelectedRows.Count < 1) { DGV.ClearSelection(); }
+            ColourRows(DGV);
         }
 
         public static void InitMiscDGVSettings(this DataGridView DGV)
@@ -184,6 +231,8 @@ namespace TaskKiller
             {
                 dgv.Sort(dgv.SortedColumn, dgv.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending);
             }
+            if (dgv.SelectedRows.Count < 1) { dgv.ClearSelection(); }
+            ColourRows(dgv);
         }
     }
 }

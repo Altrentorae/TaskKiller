@@ -27,5 +27,10 @@ namespace TaskKiller
 
             rtb.Text = placeholderText; rtb.ForeColor = CONST.Colors.DefaultPlaceholderTextColor;
         }
+
+        public static void ClearAll(this RichTextBox rtb, string placeholderText)
+        {
+            rtb.Text = placeholderText; rtb.ForeColor = CONST.Colors.DefaultPlaceholderTextColor;
+        }
     }
 }

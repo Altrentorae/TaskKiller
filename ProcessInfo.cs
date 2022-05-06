@@ -9,6 +9,8 @@
 // effectively causing a perma-lock on the UI thread, causing functionality to cease.
 // ************************************************ //
 
+//SnapShot version has no method to update values after init, can be used for static processes or caching
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -26,7 +28,6 @@ namespace TaskKiller
             Root = _r; 
             Name = _r.ProcessName; 
             PID = _r.Id.ToString(); 
-            Status = _r.GetProcessRespondString(); 
             DisplayRowID = GridID; DisplayRowObj = dgvr;
         }
 
@@ -35,10 +36,22 @@ namespace TaskKiller
             DisplayRowID = newVal;
         }
 
+        public void RefreshProc()
+        {
+            if (false) { return; }
+            Root.Refresh();
+        }
+
+        public string GetStatus()
+        {
+            if(false) { return "Discarding"; }
+            return Root.GetProcessRespondString();
+        }
+
         public Process Root;
         public string Name;
         public string PID;
-        public string Status;
+        public string Status { get => GetStatus(); }
         public string Memory { get => Extend.ToSize(Root.WorkingSet64, Extend.SizeUnits.AUTO) + ""  ?? "Mem Err"; }
         public string Memory_Raw { get => Extend.PadMem(Root.WorkingSet64, 16); }
 

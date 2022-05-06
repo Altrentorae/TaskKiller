@@ -36,6 +36,7 @@ namespace TaskKiller
                 D.DebugLog("Launching cmd shell in background");
 
                 cmd = new Process();
+                //showWindow = true;
                 ProcessStartInfo cmdSI = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
@@ -50,7 +51,7 @@ namespace TaskKiller
 
                 cmd.StandardInput.WriteLine(@"title TaskKillerShell");
 
-                D.DebugLog("cmd init complete");
+                D.DebugLog("cmd init complete with PID: " + cmd.Id, System.Drawing.Color.Green);
                 return true;
             }
             catch (Exception e)
@@ -78,7 +79,7 @@ namespace TaskKiller
         }
         public static ShellStatus CmdExists(this Process cmd)
         {
-            if(cmd == null) { return ShellStatus.Null; }
+            if(cmd == null || cmd.HasExited) { return ShellStatus.Null; }
             if (cmd.Responding) { return ShellStatus.Working; }
             if (!cmd.Responding) { return ShellStatus.Hang; }
             return ShellStatus.Unknown;
