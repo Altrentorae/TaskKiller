@@ -106,6 +106,7 @@
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.DataGridC.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.DataGridC.RowHeadersVisible = false;
+            this.DataGridC.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.DataGridC.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.DataGridC.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DataGridC.Size = new System.Drawing.Size(598, 597);

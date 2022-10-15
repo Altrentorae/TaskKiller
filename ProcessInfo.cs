@@ -7,6 +7,10 @@
 // This number needs to be consistently under the refresh time (5 seconds)
 // if not it causes stacking calls to the same function, resulting in a hang as well as 
 // effectively causing a perma-lock on the UI thread, causing functionality to cease.
+// UPDATE: 14/10/22
+// The above problem seems to be solvable with cleverly implemented background workers
+// though the same limitation could apply if the background worker cannot complete the
+// task within the refresh period. Also have to take extra caution to avoid race conditions
 // ************************************************ //
 
 //SnapShot version has no method to update values after init, can be used for static processes or caching
@@ -25,10 +29,18 @@ namespace TaskKiller
     {
         public ProcessInfo(Process _r, string name, int GridID, DataGridViewRow dgvr)
         {
-            Root = _r; 
-            Name = _r.ProcessName; 
+            Root = _r;
+            try 
+            { 
+                string n = _r.MainModule.FileVersionInfo.FileDescription;
+                if(n == null) { Name = _r.ProcessName; }
+                else if(n.Trim() == "") { Name = _r.ProcessName; }
+                else { Name = n; }
+            }
+            catch { Name = _r.ProcessName; }
             PID = _r.Id.ToString(); 
             DisplayRowID = GridID; DisplayRowObj = dgvr;
+            RefreshProc();
         }
 
         public void SetDisplayRowID(int newVal)
@@ -38,8 +50,11 @@ namespace TaskKiller
 
         public void RefreshProc()
         {
-            return;
             Root.Refresh();
+            Status = GetStatus();
+            Memory = GetMemory();
+            Memory_Raw = GetMemory_Raw();
+            return;
         }
 
         public string GetStatus()
@@ -65,9 +80,9 @@ namespace TaskKiller
         public Process Root;
         public string Name;
         public string PID;
-        public string Status { get => GetStatus(); }
-        public string Memory { get => GetMemory(); }
-        public string Memory_Raw { get => GetMemory_Raw(); }
+        public string Status { get; private set; }
+        public string Memory { get; private set; }
+        public string Memory_Raw { get; private set; }
 
         public int DisplayRowID;
         public DataGridViewRow DisplayRowObj; 

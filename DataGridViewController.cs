@@ -31,8 +31,11 @@ namespace TaskKiller
                 {
                     pInfoList.Add(new ProcessInfo(
                         p, p.ProcessName, -1, null));
-
-                    D.DebugLog($"New proc: {p.Id} - {p.ProcessName}");
+                    try
+                    {
+                        D.DebugLog($"New proc: {p.Id} - {p.ProcessName}");
+                    }
+                    catch { }
                 }
             }
 
@@ -113,8 +116,8 @@ namespace TaskKiller
                 {
                     valueUpdateTime.Start();
 
+                    //Refreshing / updating values
                     
-                    pInfoList[i].RefreshProc();
                     
                     VUStatus.Start();
                     pInfoList[i].DisplayRowObj.Cells[2].Value = pInfoList[i].Status;

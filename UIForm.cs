@@ -41,6 +41,7 @@ namespace TaskKiller
                 return;
             }
 
+            this.Text = "TaskKiller";
 
             InitializeComponent();
 
@@ -96,9 +97,32 @@ namespace TaskKiller
         }
         private void T_SubTick(object sender, EventArgs e) {}
 
+        private BackgroundWorker refreshWorker;
+
         private void buttonRefresh_Click(object sender, EventArgs e)
         {
             DbgCon.DebugLog("-----Refreshing process list-----");
+
+            if(refreshWorker == null)
+            {
+                refreshWorker = new BackgroundWorker();
+                refreshWorker.DoWork += (s, ev) =>
+                {
+                    for (int i = 0; i < Processes.Count; i++)
+                    {
+                        ProcessInfo p = Processes[i];
+                        p.RefreshProc();
+                    }
+                };
+            }
+            else 
+            {
+                if (!refreshWorker.IsBusy)
+                {
+                    refreshWorker.RunWorkerAsync();
+                }
+            }
+
             DataGridC.UpdateDataGrid(ref Processes, ref processCount);
             DbgCon.DebugLog("-----Refreshing process list complete-----\n", Color.Green);
             DataGridC.Sort();
@@ -109,9 +133,17 @@ namespace TaskKiller
 
         private void DataGridC_SelectionChanged(object sender, EventArgs e)
         {
-            UpdateProcCountBox();
-            UpdateClearButton();
             short rCount = (short)DataGridC.SelectedRows.Count;
+            
+            StackTrace stack = new StackTrace();
+            Console.WriteLine("\n\n\n\n\n\n" + DateTime.UtcNow.ToString());
+            Console.WriteLine(stack.ToString());
+
+            //if(rCount == 1) { DataGridC.ClearSelection(); }
+
+            UpdateProcCountBox();
+
+            UpdateClearButton();
             if (rCount < 1) 
             {
                 buttonKill.ForeColor = Color.Silver;
@@ -204,6 +236,7 @@ namespace TaskKiller
             DataGridC.Filter(richTextBoxSearchbox.Text);
             UpdateClearButton();
             DataGridC.ColourRows();
+            if(DataGridC.SelectedRows.Count == 1) { DataGridC.ClearSelection(); }
         }
 
         bool bTimerCreated = false;
