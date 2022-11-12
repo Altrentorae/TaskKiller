@@ -45,11 +45,12 @@
             this.richTextBoxSearchbox = new System.Windows.Forms.RichTextBox();
             this.totalProcBox = new System.Windows.Forms.RichTextBox();
             this.DragPanel = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.windowTitleLabel = new System.Windows.Forms.Label();
             this.buttonMinimise = new System.Windows.Forms.Button();
             this.buttonQuit = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.buttonClear = new System.Windows.Forms.Button();
+            this.consoleToggleButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridC)).BeginInit();
             this.DragPanel.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -193,7 +194,7 @@
             // 
             // buttonKill
             // 
-            this.buttonKill.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.buttonKill.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.buttonKill.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.buttonKill.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonKill.Font = new System.Drawing.Font("Consolas", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -208,7 +209,7 @@
             // richTextBoxSearchbox
             // 
             this.richTextBoxSearchbox.AcceptsTab = true;
-            this.richTextBoxSearchbox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.richTextBoxSearchbox.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.richTextBoxSearchbox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.richTextBoxSearchbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.richTextBoxSearchbox.DetectUrls = false;
@@ -225,7 +226,7 @@
             // 
             // totalProcBox
             // 
-            this.totalProcBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.totalProcBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.totalProcBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.totalProcBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.totalProcBox.DetectUrls = false;
@@ -246,7 +247,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DragPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(29)))), ((int)(((byte)(29)))));
             this.DragPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.DragPanel.Controls.Add(this.label1);
+            this.DragPanel.Controls.Add(this.windowTitleLabel);
+            this.DragPanel.Controls.Add(this.consoleToggleButton);
             this.DragPanel.Controls.Add(this.buttonMinimise);
             this.DragPanel.Controls.Add(this.buttonQuit);
             this.DragPanel.Location = new System.Drawing.Point(0, 2);
@@ -256,21 +258,22 @@
             this.DragPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DragPanel_MouseDown);
             this.DragPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DragPanel_MouseUp);
             // 
-            // label1
+            // windowTitleLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(1, 3);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(99, 19);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "TaskKiller";
+            this.windowTitleLabel.AutoSize = true;
+            this.windowTitleLabel.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.windowTitleLabel.ForeColor = System.Drawing.Color.White;
+            this.windowTitleLabel.Location = new System.Drawing.Point(1, 3);
+            this.windowTitleLabel.Name = "windowTitleLabel";
+            this.windowTitleLabel.Size = new System.Drawing.Size(99, 19);
+            this.windowTitleLabel.TabIndex = 0;
+            this.windowTitleLabel.Text = "TaskKiller";
             // 
             // buttonMinimise
             // 
-            this.buttonMinimise.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.buttonMinimise.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.buttonMinimise.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(29)))), ((int)(((byte)(29)))));
+            this.buttonMinimise.FlatAppearance.BorderSize = 0;
             this.buttonMinimise.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonMinimise.Font = new System.Drawing.Font("Consolas", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonMinimise.ForeColor = System.Drawing.Color.White;
@@ -285,8 +288,9 @@
             // 
             // buttonQuit
             // 
-            this.buttonQuit.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.buttonQuit.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.buttonQuit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(29)))), ((int)(((byte)(29)))));
+            this.buttonQuit.FlatAppearance.BorderSize = 0;
             this.buttonQuit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonQuit.Font = new System.Drawing.Font("Consolas", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonQuit.ForeColor = System.Drawing.Color.White;
@@ -301,9 +305,7 @@
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.DataGridC);
             this.panel1.Controls.Add(this.richTextBoxSearchbox);
@@ -320,7 +322,7 @@
             // 
             // buttonClear
             // 
-            this.buttonClear.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.buttonClear.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.buttonClear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.buttonClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonClear.Font = new System.Drawing.Font("Consolas", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -332,6 +334,23 @@
             this.buttonClear.Text = "CLEAR";
             this.buttonClear.UseVisualStyleBackColor = false;
             this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
+            // 
+            // consoleToggleButton
+            // 
+            this.consoleToggleButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.consoleToggleButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(29)))), ((int)(((byte)(29)))));
+            this.consoleToggleButton.FlatAppearance.BorderSize = 0;
+            this.consoleToggleButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.consoleToggleButton.Font = new System.Drawing.Font("Consolas", 18F);
+            this.consoleToggleButton.ForeColor = System.Drawing.Color.White;
+            this.consoleToggleButton.Location = new System.Drawing.Point(990, -4);
+            this.consoleToggleButton.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.consoleToggleButton.Name = "consoleToggleButton";
+            this.consoleToggleButton.Size = new System.Drawing.Size(27, 33);
+            this.consoleToggleButton.TabIndex = 2;
+            this.consoleToggleButton.Text = "◀";
+            this.consoleToggleButton.UseVisualStyleBackColor = false;
+            this.consoleToggleButton.Click += new System.EventHandler(this.ToggleActivityConsole);
             // 
             // UIForm
             // 
@@ -370,11 +389,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Mem_Raw;
         private System.Windows.Forms.RichTextBox totalProcBox;
         private System.Windows.Forms.Panel DragPanel;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label windowTitleLabel;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button buttonClear;
         private System.Windows.Forms.Button buttonQuit;
         private System.Windows.Forms.Button buttonMinimise;
+        private System.Windows.Forms.Button consoleToggleButton;
     }
 }
 

@@ -27,18 +27,18 @@ namespace TaskKiller
 {
     public class ProcessInfo
     {
-        public ProcessInfo(Process _r, string name, int GridID, DataGridViewRow dgvr)
+        public ProcessInfo(Process _r, int GridID, DataGridViewRow dgvr)
         {
             Root = _r;
-            try 
-            { 
+            try
+            {
                 string n = _r.MainModule.FileVersionInfo.FileDescription;
-                if(n == null) { Name = _r.ProcessName; }
-                else if(n.Trim() == "") { Name = _r.ProcessName; }
+                if (n == null) { Name = _r.ProcessName; }
+                else if (n.Trim() == "") { Name = _r.ProcessName; }
                 else { Name = n; }
             }
             catch { Name = _r.ProcessName; }
-            PID = _r.Id.ToString(); 
+            PID = _r.Id.ToString();
             DisplayRowID = GridID; DisplayRowObj = dgvr;
             RefreshProc();
         }
@@ -54,6 +54,7 @@ namespace TaskKiller
             Status = GetStatus();
             Memory = GetMemory();
             Memory_Raw = GetMemory_Raw();
+            
             return;
         }
 
@@ -63,6 +64,11 @@ namespace TaskKiller
             try { if (Root.MainWindowTitle == "") { return "Working (nw)"; } }
             catch (InvalidOperationException) { return "Discarding"; }
             return Root.GetProcessRespondString();
+        }
+
+        public string GetThreadState()
+        {
+            return Root.Threads[0].ThreadState.ToString();
         }
 
         public string GetMemory()

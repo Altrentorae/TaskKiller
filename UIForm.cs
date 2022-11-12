@@ -41,7 +41,7 @@ namespace TaskKiller
                 return;
             }
 
-            this.Text = "TaskKiller";
+            this.Text = "TaskKiller"; //This is purely for title/desc read elsewhere. Actual window text is windowTitleLabel.Text
 
             InitializeComponent();
 
@@ -98,7 +98,6 @@ namespace TaskKiller
         private void T_SubTick(object sender, EventArgs e) {}
 
         private BackgroundWorker refreshWorker;
-
         private void buttonRefresh_Click(object sender, EventArgs e)
         {
             DbgCon.DebugLog("-----Refreshing process list-----");
@@ -131,14 +130,33 @@ namespace TaskKiller
             
         }
 
+        string LTri = "◀";
+        string RTri = "▶";
+        int origSize = 1072;
+        int consoleSize = 469;
+        bool consoleState = true;
+        private void ToggleActivityConsole(object sender, EventArgs e)
+        {
+            consoleState = !consoleState;
+
+            consoleToggleButton.Text = consoleState ? LTri : RTri;
+            Size = consoleState ? new Size(origSize, Height) : new Size(origSize - consoleSize, Height);
+            panel1.Size = consoleState ? new Size(origSize, panel1.Height) : new Size(origSize - consoleSize, panel1.Height);
+            DragPanel.Size = consoleState ? new Size(origSize, DragPanel.Height) : new Size(origSize - consoleSize, DragPanel.Height);
+            //dbgConsoleTxtbox.Size = consoleState ? new Size(consoleSize, dbgConsoleTxtbox.Height) : new Size(0, dbgConsoleTxtbox.Height);
+            (consoleState ? (Action)dbgConsoleTxtbox.Show : dbgConsoleTxtbox.Hide)();
+
+
+        }
+
         private void DataGridC_SelectionChanged(object sender, EventArgs e)
         {
             short rCount = (short)DataGridC.SelectedRows.Count;
             
-            StackTrace stack = new StackTrace();
+            /*StackTrace stack = new StackTrace();
             Console.WriteLine("\n\n\n\n\n\n" + DateTime.UtcNow.ToString());
             Console.WriteLine(stack.ToString());
-
+            */
             //if(rCount == 1) { DataGridC.ClearSelection(); }
 
             UpdateProcCountBox();

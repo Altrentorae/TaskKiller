@@ -30,7 +30,7 @@ namespace TaskKiller
                 if (!pInfoList.Any(x => x.PID == p.Id.ToString()))
                 {
                     pInfoList.Add(new ProcessInfo(
-                        p, p.ProcessName, -1, null));
+                        p, -1, null));
                     try
                     {
                         D.DebugLog($"New proc: {p.Id} - {p.ProcessName}");
