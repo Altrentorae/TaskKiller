@@ -54,7 +54,7 @@ namespace TaskKiller
             Status = GetStatus();
             Memory = GetMemory();
             Memory_Raw = GetMemory_Raw();
-            
+            ThreadStatus = GetThreadState();            
             return;
         }
 
@@ -68,7 +68,31 @@ namespace TaskKiller
 
         public string GetThreadState()
         {
-            return Root.Threads[0].ThreadState.ToString();
+            try {
+                if (Root.Threads[0].ThreadState == ThreadState.Wait)
+                {
+                    if(Root.Threads[0].WaitReason == ThreadWaitReason.UserRequest) { return "Wait"; }
+                    return Root.Threads[0].WaitReason.ToString();
+                }
+                return Root.Threads[0].ThreadState.ToString(); 
+            }
+            catch { return ThreadState.Unknown.ToString(); }
+        }
+
+        public bool GetThreadStateGood()
+        {
+            switch(Root.Threads[0].ThreadState)
+            {
+                case ThreadState.Initialized:
+                case ThreadState.Ready:
+                case ThreadState.Running:
+                case ThreadState.Standby:
+                case ThreadState.Transition:
+                case ThreadState.Wait:
+                    return true;
+                default: 
+                    return false;
+            }
         }
 
         public string GetMemory()
@@ -89,6 +113,7 @@ namespace TaskKiller
         public string Status { get; private set; }
         public string Memory { get; private set; }
         public string Memory_Raw { get; private set; }
+        public string ThreadStatus { get; private set; }
 
         public int DisplayRowID;
         public DataGridViewRow DisplayRowObj; 

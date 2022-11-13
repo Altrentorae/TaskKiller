@@ -33,11 +33,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UIForm));
             this.DataGridC = new System.Windows.Forms.DataGridView();
-            this.ProcessName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProcessId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProcessStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Mem = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Mem_Raw = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dbgConsoleTxtbox = new System.Windows.Forms.RichTextBox();
             this.buttonRelaunchCmd = new System.Windows.Forms.Button();
             this.buttonRefresh = new System.Windows.Forms.Button();
@@ -51,6 +46,12 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.buttonClear = new System.Windows.Forms.Button();
             this.consoleToggleButton = new System.Windows.Forms.Button();
+            this.ProcessName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProcessId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProcessStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SubStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Mem = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Mem_Raw = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridC)).BeginInit();
             this.DragPanel.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -80,6 +81,7 @@
             this.ProcessName,
             this.ProcessId,
             this.ProcessStatus,
+            this.SubStatus,
             this.Mem,
             this.Mem_Raw});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -110,45 +112,11 @@
             this.DataGridC.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.DataGridC.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.DataGridC.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DataGridC.Size = new System.Drawing.Size(598, 597);
+            this.DataGridC.Size = new System.Drawing.Size(737, 597);
             this.DataGridC.TabIndex = 0;
             this.DataGridC.TabStop = false;
             this.DataGridC.SelectionChanged += new System.EventHandler(this.DataGridC_SelectionChanged);
             this.DataGridC.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DataGridC_MouseDown);
-            // 
-            // ProcessName
-            // 
-            this.ProcessName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ProcessName.HeaderText = "Name";
-            this.ProcessName.Name = "ProcessName";
-            this.ProcessName.ReadOnly = true;
-            // 
-            // ProcessId
-            // 
-            this.ProcessId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ProcessId.HeaderText = "Id";
-            this.ProcessId.Name = "ProcessId";
-            this.ProcessId.ReadOnly = true;
-            // 
-            // ProcessStatus
-            // 
-            this.ProcessStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ProcessStatus.HeaderText = "Status";
-            this.ProcessStatus.Name = "ProcessStatus";
-            this.ProcessStatus.ReadOnly = true;
-            // 
-            // Mem
-            // 
-            this.Mem.HeaderText = "Memory";
-            this.Mem.Name = "Mem";
-            this.Mem.ReadOnly = true;
-            // 
-            // Mem_Raw
-            // 
-            this.Mem_Raw.HeaderText = "Mem_Raw";
-            this.Mem_Raw.Name = "Mem_Raw";
-            this.Mem_Raw.ReadOnly = true;
-            this.Mem_Raw.Visible = false;
             // 
             // dbgConsoleTxtbox
             // 
@@ -156,7 +124,7 @@
             this.dbgConsoleTxtbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dbgConsoleTxtbox.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dbgConsoleTxtbox.ForeColor = System.Drawing.Color.LightGray;
-            this.dbgConsoleTxtbox.Location = new System.Drawing.Point(603, 27);
+            this.dbgConsoleTxtbox.Location = new System.Drawing.Point(736, 27);
             this.dbgConsoleTxtbox.Name = "dbgConsoleTxtbox";
             this.dbgConsoleTxtbox.ReadOnly = true;
             this.dbgConsoleTxtbox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
@@ -169,7 +137,7 @@
             // buttonRelaunchCmd
             // 
             this.buttonRelaunchCmd.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonRelaunchCmd.Location = new System.Drawing.Point(372, 35);
+            this.buttonRelaunchCmd.Location = new System.Drawing.Point(439, 35);
             this.buttonRelaunchCmd.Name = "buttonRelaunchCmd";
             this.buttonRelaunchCmd.Size = new System.Drawing.Size(88, 35);
             this.buttonRelaunchCmd.TabIndex = 2;
@@ -182,7 +150,7 @@
             // buttonRefresh
             // 
             this.buttonRefresh.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonRefresh.Location = new System.Drawing.Point(522, 53);
+            this.buttonRefresh.Location = new System.Drawing.Point(589, 53);
             this.buttonRefresh.Name = "buttonRefresh";
             this.buttonRefresh.Size = new System.Drawing.Size(88, 35);
             this.buttonRefresh.TabIndex = 2;
@@ -253,7 +221,7 @@
             this.DragPanel.Controls.Add(this.buttonQuit);
             this.DragPanel.Location = new System.Drawing.Point(0, 2);
             this.DragPanel.Name = "DragPanel";
-            this.DragPanel.Size = new System.Drawing.Size(1072, 30);
+            this.DragPanel.Size = new System.Drawing.Size(1206, 30);
             this.DragPanel.TabIndex = 5;
             this.DragPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DragPanel_MouseDown);
             this.DragPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DragPanel_MouseUp);
@@ -277,7 +245,7 @@
             this.buttonMinimise.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonMinimise.Font = new System.Drawing.Font("Consolas", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonMinimise.ForeColor = System.Drawing.Color.White;
-            this.buttonMinimise.Location = new System.Drawing.Point(1015, -4);
+            this.buttonMinimise.Location = new System.Drawing.Point(1149, -4);
             this.buttonMinimise.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.buttonMinimise.Name = "buttonMinimise";
             this.buttonMinimise.Size = new System.Drawing.Size(27, 33);
@@ -294,7 +262,7 @@
             this.buttonQuit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonQuit.Font = new System.Drawing.Font("Consolas", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonQuit.ForeColor = System.Drawing.Color.White;
-            this.buttonQuit.Location = new System.Drawing.Point(1042, -4);
+            this.buttonQuit.Location = new System.Drawing.Point(1176, -4);
             this.buttonQuit.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.buttonQuit.Name = "buttonQuit";
             this.buttonQuit.Size = new System.Drawing.Size(27, 33);
@@ -317,7 +285,7 @@
             this.panel1.Controls.Add(this.buttonRelaunchCmd);
             this.panel1.Location = new System.Drawing.Point(0, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1072, 678);
+            this.panel1.Size = new System.Drawing.Size(1206, 678);
             this.panel1.TabIndex = 6;
             // 
             // buttonClear
@@ -343,7 +311,7 @@
             this.consoleToggleButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.consoleToggleButton.Font = new System.Drawing.Font("Consolas", 18F);
             this.consoleToggleButton.ForeColor = System.Drawing.Color.White;
-            this.consoleToggleButton.Location = new System.Drawing.Point(990, -4);
+            this.consoleToggleButton.Location = new System.Drawing.Point(1124, -4);
             this.consoleToggleButton.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.consoleToggleButton.Name = "consoleToggleButton";
             this.consoleToggleButton.Size = new System.Drawing.Size(27, 33);
@@ -352,12 +320,53 @@
             this.consoleToggleButton.UseVisualStyleBackColor = false;
             this.consoleToggleButton.Click += new System.EventHandler(this.ToggleActivityConsole);
             // 
+            // ProcessName
+            // 
+            this.ProcessName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ProcessName.HeaderText = "Name";
+            this.ProcessName.Name = "ProcessName";
+            this.ProcessName.ReadOnly = true;
+            // 
+            // ProcessId
+            // 
+            this.ProcessId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ProcessId.HeaderText = "Id";
+            this.ProcessId.Name = "ProcessId";
+            this.ProcessId.ReadOnly = true;
+            // 
+            // ProcessStatus
+            // 
+            this.ProcessStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ProcessStatus.HeaderText = "Status";
+            this.ProcessStatus.Name = "ProcessStatus";
+            this.ProcessStatus.ReadOnly = true;
+            // 
+            // SubStatus
+            // 
+            this.SubStatus.HeaderText = "State";
+            this.SubStatus.Name = "SubStatus";
+            this.SubStatus.ReadOnly = true;
+            this.SubStatus.Width = 140;
+            // 
+            // Mem
+            // 
+            this.Mem.HeaderText = "Memory";
+            this.Mem.Name = "Mem";
+            this.Mem.ReadOnly = true;
+            // 
+            // Mem_Raw
+            // 
+            this.Mem_Raw.HeaderText = "Mem_Raw";
+            this.Mem_Raw.Name = "Mem_Raw";
+            this.Mem_Raw.ReadOnly = true;
+            this.Mem_Raw.Visible = false;
+            // 
             // UIForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(12)))), ((int)(((byte)(17)))));
-            this.ClientSize = new System.Drawing.Size(1072, 680);
+            this.ClientSize = new System.Drawing.Size(1206, 680);
             this.Controls.Add(this.DragPanel);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -382,11 +391,6 @@
         private System.Windows.Forms.Button buttonRefresh;
         private System.Windows.Forms.Button buttonRelaunchCmd;
         private System.Windows.Forms.RichTextBox richTextBoxSearchbox;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProcessName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProcessId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProcessStatus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Mem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Mem_Raw;
         private System.Windows.Forms.RichTextBox totalProcBox;
         private System.Windows.Forms.Panel DragPanel;
         private System.Windows.Forms.Label windowTitleLabel;
@@ -395,6 +399,12 @@
         private System.Windows.Forms.Button buttonQuit;
         private System.Windows.Forms.Button buttonMinimise;
         private System.Windows.Forms.Button consoleToggleButton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProcessName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProcessId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProcessStatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SubStatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Mem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Mem_Raw;
     }
 }
 

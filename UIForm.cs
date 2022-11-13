@@ -44,6 +44,7 @@ namespace TaskKiller
             this.Text = "TaskKiller"; //This is purely for title/desc read elsewhere. Actual window text is windowTitleLabel.Text
 
             InitializeComponent();
+            InitTAC();
 
             {
                 buttonRefresh.Visible = false;
@@ -132,9 +133,15 @@ namespace TaskKiller
 
         string LTri = "◀";
         string RTri = "▶";
-        int origSize = 1072;
-        int consoleSize = 469;
+        int origSize = 1072; //Placeholder
+        int consoleSize = 469; //Placeholer
         bool consoleState = true;
+
+        private void InitTAC()
+        {
+            origSize = this.Size.Width;
+            consoleSize = dbgConsoleTxtbox.Width;
+        }
         private void ToggleActivityConsole(object sender, EventArgs e)
         {
             consoleState = !consoleState;

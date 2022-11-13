@@ -94,8 +94,9 @@ namespace TaskKiller
                         temp.Cells[0].Value = pInfoList[i].Name;
                         temp.Cells[1].Value = pInfoList[i].PID;
                         temp.Cells[2].Value = pInfoList[i].Status;
-                        temp.Cells[3].Value = pInfoList[i].Memory;
-                        temp.Cells[4].Value = pInfoList[i].Memory_Raw; //This col is hidden, used for sorting col [3]
+                        temp.Cells[3].Value = pInfoList[i].ThreadStatus;
+                        temp.Cells[4].Value = pInfoList[i].Memory;
+                        temp.Cells[5].Value = pInfoList[i].Memory_Raw; //This col is hidden, used for sorting col [3]
 
                         bufferRows.Add(temp);
                         // Name / Id / Status / Mem //
@@ -121,14 +122,15 @@ namespace TaskKiller
                     
                     VUStatus.Start();
                     pInfoList[i].DisplayRowObj.Cells[2].Value = pInfoList[i].Status;
+                    pInfoList[i].DisplayRowObj.Cells[3].Value = pInfoList[i].ThreadStatus;
                     VUStatus.Stop();
 
                     VUMem.Start();
-                    pInfoList[i].DisplayRowObj.Cells[3].Value = pInfoList[i].Memory;
+                    pInfoList[i].DisplayRowObj.Cells[4].Value = pInfoList[i].Memory;
                     VUMem.Stop();
 
                     VURMem.Start();
-                    pInfoList[i].DisplayRowObj.Cells[4].Value = pInfoList[i].Memory_Raw; //This col is hidden, used for sorting col [3]
+                    pInfoList[i].DisplayRowObj.Cells[5].Value = pInfoList[i].Memory_Raw; //This col is hidden, used for sorting col [3]
                     VURMem.Stop();
 
                     valueUpdateTime.Stop();
@@ -239,11 +241,11 @@ namespace TaskKiller
         public static void Sort(this DataGridView dgv)
         {
             if (dgv.Rows.Count == 0 || dgv.SortedColumn == null || dgv.SortOrder == SortOrder.None) { return; }
-            if(dgv.SortedColumn == dgv.Columns[3])
+            if(dgv.SortedColumn == dgv.Columns[4])
             {
                 ListSortDirection LSD = sortDir ? ListSortDirection.Ascending : ListSortDirection.Descending;
                 sortDir = !sortDir;
-                dgv.Sort(dgv.Columns[4], LSD);
+                dgv.Sort(dgv.Columns[5], LSD);
             }
             else
             {
